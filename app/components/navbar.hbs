@@ -1,0 +1,23 @@
+<nav>
+    <div class="big-profile">
+        <div class="profile-image">
+            <img src="assets/images/profile.png" alt="Profile Image" />
+        </div>
+        <div class="profile-name">
+            <h1>Ned Stark</h1>
+        </div>
+    </div>
+    <ul>
+        <li class="color_li"><LinkTo @route="index"><i class="fa-solid fa-house-chimney"></i>Home</LinkTo></li>
+        <li ><LinkTo @route="subscriptions"><i class="fa-solid fa-money-check-dollar"></i>Your Subscriptions</LinkTo></li>
+        <li><LinkTo @route="transactions"><i class="fa-solid fa-money-bill-transfer"></i>Transactions</LinkTo></li>
+        <li><LinkTo @route="wallet"><i class="fa-solid fa-wallet"></i>Your Wallet</LinkTo></li>
+        <li><LinkTo @route="profile"><i class="fa-solid fa-address-card"></i>Profile</LinkTo></li>
+    </ul>
+
+    <div class="company">
+        <LinkTo @route="index">
+        <i class="fa-solid fa-chart-simple"></i>
+        <h1>TrackWise</h1></LinkTo>
+    </div>
+</nav>

@@ -1,1 +1,367 @@
 /* Ember supports plain CSS out of the box. More info: https://cli.emberjs.com/release/advanced-use/stylesheets/ */
+
+@import url("https://fonts.googleapis.com/css2?family=Special+Gothic&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #172646;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+}
+
+nav {
+  width: 15%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+.big-profile h1 {
+  margin-top: 10px;
+  color: white;
+}
+
+nav img {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #47ceae;
+  border-radius: 50%;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: inherit;
+}
+nav ul li a i {
+  margin-right: 10px;
+  color: inherit;
+}
+
+nav ul li {
+  margin: 20px 0;
+  padding: 15px 20px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.color_li {
+  background-color: #47ceae;
+  color: #172646;
+}
+
+.company a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  color: #47ceae;
+}
+.company i {
+  border: 1px solid #47ceae;
+  padding: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.remaining {
+  background-color: #eeeeee;
+  width: 85%;
+  height: 90vh;
+
+  border-radius: 20px;
+  margin: 30px 30px 30px 0;
+}
+
+.top {
+  background-color: white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 20px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  justify-content: space-between;
+}
+
+.top-right {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+}
+.top-right img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #47ceae;
+}
+.top-right i {
+  font-size: 25px;
+}
+.dashboards {
+  padding: 20px;
+}
+.designer-line h1 {
+  border-left: 4px solid #47ceae;
+  padding-left: 10px;
+}
+
+.dashboard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+.boards {
+  background-color: white;
+  width: 24%;
+  border-radius: 20px;
+  padding: 20px;
+}
+.boards a {
+  text-decoration: none;
+  color: inherit;
+}
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.heading i {
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 50%;
+  color: white;
+}
+.wallet i {
+  background-color: #47ceae;
+}
+
+.subscriptions i {
+  background-color: #7c61fe;
+}
+
+.spendings i {
+  background-color: #f55538;
+}
+
+.spendingss i {
+  background-color: #f55538;
+}
+
+.content h4 {
+  color: #a4a4a4;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+.wallet-design {
+  margin: 20px 0 0 20px;
+}
+.wallet-page {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 20px;
+}
+.wallet-left {
+  width: 55%;
+}
+.balance-cards {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.balance-card {
+  width: 290px;
+  height: 200px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+}
+.balance-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.balance-card-top button {
+  padding: 8px;
+  background-color: transparent;
+  color: black;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid gray;
+  transition: all 0.3s ease-in-out;
+}
+.balance-card-top button:hover {
+  background-color: #47ceae;
+  color: white;
+}
+.balance-card h3 {
+  color: gray;
+  font-size: 18px;
+}
+
+.balance-card h1 {
+  font-size: 50px;
+  margin: 35px 0;
+}
+.wallet-right {
+  width: 40%;
+  margin: 0 20px;
+}
+
+.comp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.comp h4 {
+  color: #47ceae;
+}
+.comp i {
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #47ceae;
+  font-size: 20px;
+  border-radius: 50%;
+  color: #47ceae;
+}
+.wallet-right form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+}
+.wallet-right h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.amount-input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.amount-input input {
+  padding: 10px;
+  background-color: rgb(239, 239, 239);
+  border: 1px solid rgb(239, 239, 239);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.payment-select {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.payment-select select {
+  padding: 10px;
+  background-color: rgb(239, 239, 239);
+  border: 1px solid rgb(239, 239, 239);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.payment-select select:focus {
+  outline: none;
+}
+.amount-input input:focus {
+  outline: none;
+}
+
+.add-money button {
+  width: 100%;
+  padding: 10px;
+  background-color: #47ceae;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.add-money button:hover {
+  background-color: #3da89a;
+}
+.subscriptions {
+  margin: 20px;
+  width: 70%;
+}
+
+.subscriptions .designer-line h1 {
+  margin-bottom: 20px;
+}
+.subscriptions-list {
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+}
+.table-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.table-top input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.table-top button {
+  padding: 10px 15px;
+  background-color: #47ceae;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+.table-top button:hover {
+  background-color: #3da89a;
+}
+
+.subscriptions-list table {
+  width: 100%;
+  border-collapse: collapse;
+  text-transform: capitalize;
+}
+.subscriptions-list table th,
+.subscriptions-list table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.subscriptions-list table th {
+  background-color: #f3f6fd;
+}
+.subscriptions-list table td {
+  text-align: center;
+  font-size: 15px;
+}

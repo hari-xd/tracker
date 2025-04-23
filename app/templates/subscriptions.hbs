@@ -1,0 +1,48 @@
+{{page-title "Subscriptions"}}
+<div class="subscriptions">
+    <div class="designer-line">
+        <h1>Your Subscriptions</h1>
+    </div>
+    <div class="subscriptions-list">
+        {{!-- {{#each this.model as |subscription|}}
+            <div class="subscription-card">
+                <h2>{{subscription.subscriptionName}}</h2>
+                <p>Price: ${{subscription.subscriptionPrice}}</p>
+                <p>Status: {{if subscription.subscriptionStatus "Active" "Inactive"}}</p>
+                
+            </div>
+        {{/each}} --}}
+        <div class="table-top">
+            <input type="text" name="searchSubscription" id="search" placeholder="Search for a subscription"/>
+        <button type="submit">Add Subscription</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Subscription Name</th>
+                    <th>Price</th>
+                    <th>subscription Plan</th>
+                    <th>Status</th>
+                    <th>Billing Cycle</th>
+                    <th>Payment Method</th>
+                    <th>End Date</th> 
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.model as |subscription|}}
+                    <tr>
+                        <td>{{subscription.subscriptionName}}</td>
+                        <td>${{subscription.subscriptionPrice}}</td>
+                        <td>{{subscription.subscriptionPlan}}</td>
+                        <td>{{if subscription.subscriptionStatus "Active" "Inactive"}}</td>
+                        <td>{{subscription.billingCycle}}</td>
+                        <td>{{subscription.paymentMethod}}</td>
+                        <td>{{subscription.subscriptionEndDate}}</td>
+                        
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

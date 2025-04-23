@@ -1,7 +1,19 @@
 {{page-title "Tracker"}}
+<div class="container">
+    <Navbar />
+    <div class="remaining">
+        <div class="top">
+    <div class="top-left">
+        <h1>Welcome, Ned Stark</h1>
+    <p>Your one-stop solution for tracking your finances.</p>
+    </div>
 
-{{! The following component displays Ember's default welcome message. }}
-<WelcomePage />
-{{! Feel free to remove this! }}
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+        <img src="assets/images/profile.png" alt="Profile Image" />
+    </div>
+</div>
+        {{outlet}}
+    </div>
+</div>
 
-{{outlet}}
