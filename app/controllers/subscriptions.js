@@ -90,16 +90,15 @@ export default class SubscriptionsController extends Controller {
     //     this.subscriptionStartDate,this.subscriptionEndDate];
 
     this.newObj = {
-      id:this.data.length+1,
-      subscriptionName: this.subscriptionName,
-      subscriptionPrice: parseInt(this.subscriptionPrice),
-      subscriptionPlan: this.subscriptionPlan,
-      billingCycle: this.billingCycle,
-      subscriptionType: this.subscriptionName.toLowerCase(),
-      paymentMethod: this.paymentMethod,
-      subscriptionStartDate: this.subscriptionStartDate,
-      subscriptionEndDate: this.subscriptionEndDate,
-      subscriptionStatus: 'active',
+      "subscriptionName": this.subscriptionName,
+      "subscriptionPrice": parseInt(this.subscriptionPrice),
+      "subscriptionPlan": this.subscriptionPlan,
+      "billingCycle": this.billingCycle,
+      "subscriptionType": this.subscriptionName.toLowerCase(),
+      "paymentMethod": this.paymentMethod,
+      "subscriptionStartDate": this.subscriptionStartDate,
+      "subscriptionEndDate": this.subscriptionEndDate,
+      "subscriptionStatus": 'active',
     };
 
     // this.data = { ...this.data, [Object.keys(this.data).length]: this.newObj };
@@ -107,6 +106,10 @@ export default class SubscriptionsController extends Controller {
     // localStorage.setItem('data', JSON.stringify(this.data));
     console.log(this.data);
 
+    this.data[this.data.length+1] = this.newObj;
+    localStorage.setItem('data', JSON.stringify(this.data));
+    console.log(JSON.parse(localStorage.getItem("data")));
+    this.loadInitialTable();
     return this.data;
   }
 
