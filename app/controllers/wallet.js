@@ -5,6 +5,9 @@ import { action } from '@ember/object';
 export default class WalletController extends Controller {
   @tracked addMoneyClicked = false;
   @tracked amount = localStorage.getItem('amount');
+//   @tracked amount = 100;
+
+
   @tracked paymentType = '';
   @tracked upamount = 0;
 

@@ -1,6 +1,7 @@
 {{page-title "Subscriptions"}}
 <div class="subscriptions">
-    <div class="designer-line">
+    <div class="subscriptions-left">
+        <div class="designer-line">
         <h1>Your Subscriptions</h1>
     </div>
     <div class="subscriptions-list">
@@ -14,7 +15,7 @@
         {{/each}} --}}
         <div class="table-top">
             <input type="text" name="searchSubscription" id="search" placeholder="Search for a subscription"/>
-        <button type="submit">Add Subscription</button>
+        <button type="submit" {{on "click" this.addSubscriptionForm}}>Add Subscription</button>
         </div>
 
         <table>
@@ -44,5 +45,56 @@
                 {{/each}}
             </tbody>
         </table>
+    </div>
+    </div>
+
+    <div class="subscriptions-right">
+        {{#if this.addSubscription}}
+        <h1>Add Your Subscriptions</h1>
+        <form action="">
+            <div class="form-group">
+                <label for="subscriptionName">Subscription Name : </label>
+                <input type="text" id="subscriptionName" name="subscriptionName" required {{on "input" this.updateSubscriptionName}}>
+            </div>
+            <div class="form-group">
+                <label for="subscriptionPrice">Subscription Price</label>
+                <input type="number" id="subscriptionPrice" name="subscriptionPrice" required {{on "input" this.updateSubscriptionPrice}}>
+            </div>
+            <div class="form-group">
+                <label for="subscriptionPlan">Subscription Plan</label>
+                <select id="subscriptionPlan" name="subscriptionPlan" required {{on "input" this.updateSubscriptionPlan}}>
+                    <option value="basic">Basic</option>
+                    <option value="pro">Pro</option>
+                    <option value="pro +">Pro +</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="billingCycle">Billing Cycle</label>
+                <select id="billingCycle" name="billingCycle" required {{on "input" this.updateBillingCycle}}>
+                    <option value="monthly">Monthly</option>
+                    <option value="three months">3 Months Once</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="paymentMethod">Payment Method</label>
+                <select id="paymentMethod" name="paymentMethod" required {{on "input" this.updatePaymentMethod}}>
+                    <option value="credit">Credit card</option>
+                    <option value="debit">Debit card</option>
+                    <option value="upi">UPI</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="subscriptionstartDate">Start Date</label>
+                <input type="date" id="subscriptionstartDate" name="subscriptionstartDate" required {{on "input" this.updateSubscriptionStartDate}}>
+            </div>
+            <div class="form-group">
+                <label for="subscriptionEndDate">End Date</label>
+                <input type="date" id="subscriptionEndDate" name="subscriptionEndDate" required {{on "input" this.updateSubscriptionEndDate}}>
+            </div>
+            <button type="button" {{on "click" this.submitForm}}>Submit</button>
+        </form>
+        
+        {{/if}}
     </div>
 </div>

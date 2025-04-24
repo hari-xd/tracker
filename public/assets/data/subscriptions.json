@@ -6,8 +6,8 @@
         "billingCycle": "monthly",
         "subscriptionType": "netlfix",
         "paymentMethod": "credit card",
-        "subscriptionStartDate": "2023-01-15",
-        "subscriptionEndDate": "2024-01-15",
+        "subscriptionStartDate": "01-04-2025",
+        "subscriptionEndDate": "01-05-2025",
         "subscriptionStatus": "active"
     },
     {
@@ -17,8 +17,8 @@
         "billingCycle": "Three months",
         "subscriptionType": "prime",
         "paymentMethod": "debit card",
-        "subscriptionStartDate": "2023-02-15",
-        "subscriptionEndDate": "2024-05-15",
+        "subscriptionStartDate": "15-02-2025",
+        "subscriptionEndDate": "15-04-2025",
         "subscriptionStatus": "active"
     },
     {
@@ -28,8 +28,8 @@
         "billingCycle": "monthly",
         "subscriptionType": "netlfix",
         "paymentMethod": "credit card",
-        "subscriptionStartDate": "2023-02-15",
-        "subscriptionEndDate": "2024-05-15",
+        "subscriptionStartDate": "15-02-2025",
+        "subscriptionEndDate": "15-04-2025",
         "subscriptionStatus": "active"
     },
     {
@@ -39,8 +39,8 @@
         "billingCycle": "monthly",
         "subscriptionType": "netlfix",
         "paymentMethod": "credit card",
-        "subscriptionStartDate": "2023-01-15",
-        "subscriptionEndDate": "2024-01-15",
+        "subscriptionStartDate": "01-04-2025",
+        "subscriptionEndDate": "01-05-2025",
         "subscriptionStatus": "active"
     },
     {
@@ -50,8 +50,8 @@
         "billingCycle": "monthly",
         "subscriptionType": "netlfix",
         "paymentMethod": "credit card",
-        "subscriptionStartDate": "2023-01-15",
-        "subscriptionEndDate": "2024-01-15",
+        "subscriptionStartDate": "01-04-2025",
+        "subscriptionEndDate": "01-05-2025",
         "subscriptionStatus": "active"
     },
     {
@@ -61,8 +61,74 @@
         "billingCycle": "monthly",
         "subscriptionType": "netlfix",
         "paymentMethod": "credit card",
-        "subscriptionStartDate": "2023-01-15",
-        "subscriptionEndDate": "2024-01-15",
+        "subscriptionStartDate": "01-04-2025",
+        "subscriptionEndDate": "01-05-2025",
+        "subscriptionStatus": "active"
+    },
+    {
+        "subscriptionName": "Netflix",
+        "subscriptionPrice": 15.99,
+        "subscriptionPlan": "basic",
+        "billingCycle": "monthly",
+        "subscriptionType": "netlfix",
+        "paymentMethod": "credit card",
+        "subscriptionStartDate": "01-04-2025",
+        "subscriptionEndDate": "01-05-2025",
+        "subscriptionStatus": "active"
+    },
+    {
+        "subscriptionName": "Amazon Prime",
+        "subscriptionPrice": 10.95,
+        "subscriptionPlan": "basic",
+        "billingCycle": "Three months",
+        "subscriptionType": "prime",
+        "paymentMethod": "debit card",
+        "subscriptionStartDate": "15-02-2025",
+        "subscriptionEndDate": "15-04-2025",
+        "subscriptionStatus": "active"
+    },
+    {
+        "subscriptionName": "Disney+",
+        "subscriptionPrice": 8.63,
+        "subscriptionPlan": "basic",
+        "billingCycle": "monthly",
+        "subscriptionType": "netlfix",
+        "paymentMethod": "credit card",
+        "subscriptionStartDate": "15-02-2025",
+        "subscriptionEndDate": "15-04-2025",
+        "subscriptionStatus": "active"
+    },
+    {
+        "subscriptionName": "Apple Music",
+        "subscriptionPrice": 5.2,
+        "subscriptionPlan": "basic",
+        "billingCycle": "monthly",
+        "subscriptionType": "netlfix",
+        "paymentMethod": "credit card",
+        "subscriptionStartDate": "01-04-2025",
+        "subscriptionEndDate": "01-05-2025",
+        "subscriptionStatus": "active"
+    },
+    {
+        "subscriptionName": "Sony Liv",
+        "subscriptionPrice": 5.99,
+        "subscriptionPlan": "basic",
+        "billingCycle": "monthly",
+        "subscriptionType": "netlfix",
+        "paymentMethod": "credit card",
+        "subscriptionStartDate": "01-04-2025",
+        "subscriptionEndDate": "01-05-2025",
+        "subscriptionStatus": "active"
+    },
+    {
+        "subscriptionName": "aha",
+        "subscriptionPrice": 15.99,
+        "subscriptionPlan": "basic",
+        "billingCycle": "monthly",
+        "subscriptionType": "netlfix",
+        "paymentMethod": "credit card",
+        "subscriptionStartDate": "01-04-2025",
+        "subscriptionEndDate": "01-05-2025",
         "subscriptionStatus": "active"
     }
 ]
