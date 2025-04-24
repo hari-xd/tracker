@@ -27,21 +27,27 @@
                     <th>Status</th>
                     <th>Billing Cycle</th>
                     <th>Payment Method</th>
+                    <th>Start Date</th>
                     <th>End Date</th> 
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {{#each this.model as |subscription|}}
+                {{#each this.data as |subscription|}}
+                    {{#if subscription}}
                     <tr>
                         <td>{{subscription.subscriptionName}}</td>
                         <td>${{subscription.subscriptionPrice}}</td>
                         <td>{{subscription.subscriptionPlan}}</td>
-                        <td>{{if subscription.subscriptionStatus "Active" "Inactive"}}</td>
+                        <td>{{subscription.subscriptionStatus}}</td>
                         <td>{{subscription.billingCycle}}</td>
                         <td>{{subscription.paymentMethod}}</td>
+                        <td>{{subscription.subscriptionStartDate}}</td>
                         <td>{{subscription.subscriptionEndDate}}</td>
+                        <td><i class="fa-solid fa-pen-to-square" {{on "click" (fn this.editButtonClicked subscription.id)}}></i><i class="fa-solid fa-trash" {{on "click" (fn this.deleteButtonClicked subscription.id)}}></i></td>
                         
                     </tr>
+                    {{/if}}
                 {{/each}}
             </tbody>
         </table>
@@ -97,4 +103,56 @@
         
         {{/if}}
     </div>
+</div>
+
+
+<div class="edit-subscription">
+{{#if this.editSubscription}}
+    
+        <h1>Edit Subscription</h1>
+        <form action="">
+            <div class="form-group">
+                <label for="subscriptionName">Subscription Name : </label>
+                <input type="text" id="subscriptionName" name="subscriptionName" value={{this.subscriptionName}} required {{on "input" this.updateSubscriptionName}}>
+            </div>
+            <div class="form-group">
+                <label for="subscriptionPrice">Subscription Price</label>
+                <input type="number" id="subscriptionPrice" name="subscriptionPrice" value={{this.subscriptionPrice}} required {{on "input" this.updateSubscriptionPrice}}>
+            </div>
+            <div class="form-group">
+                <label for="subscriptionPlan">Subscription Plan</label>
+                <select id="subscriptionPlan" name="subscriptionPlan" required {{on "input" this.updateSubscriptionPlan}}>
+                    <option value="basic">Basic</option>
+                    <option value="pro">Pro</option>
+                    <option value="pro +">Pro +</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="billingCycle">Billing Cycle</label>
+                <select id="billingCycle" name="billingCycle" required {{on "input" this.updateBillingCycle}}>
+                    <option value="monthly">Monthly</option>
+                    <option value="three months">3 Months Once</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="paymentMethod">Payment Method</label>
+                <select id="paymentMethod" name="paymentMethod" required {{on "input" this.updatePaymentMethod}}>
+                    <option value="credit">Credit card</option>
+                    <option value="debit">Debit card</option>
+                    <option value="upi">UPI</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="subscriptionstartDate">Start Date</label>
+                <input type="date" id="subscriptionstartDate" name="subscriptionstartDate" value={{this.subscriptionStartDate}} required {{on "input" this.updateSubscriptionStartDate}}>
+            </div>
+            <div class="form-group">
+                <label for="subscriptionEndDate">End Date</label>
+                <input type="date" id="subscriptionEndDate" name="subscriptionEndDate" value={{this.subscriptionEndDate}} required {{on "input" this.updateSubscriptionEndDate}}>
+            </div>
+            <button type="button" {{on "click" (fn this.updateSubscription this.subscriptionId)}}>Update</button>
+            <button type="button" {{on "click" this.cancelEdit}}>Cancel</button>
+        </form>
+    {{/if}}
 </div>
