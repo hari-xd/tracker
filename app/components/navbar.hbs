@@ -8,11 +8,12 @@
         </div>
     </div>
     <ul>
-        <li><LinkTo @route="index"><i class="fa-solid fa-house-chimney"></i>Home</LinkTo></li>
-        <li class="color_li"><LinkTo @route="subscriptions"><i class="fa-solid fa-money-check-dollar"></i>Your Subscriptions</LinkTo></li>
-        <li><LinkTo @route="transactions"><i class="fa-solid fa-money-bill-transfer"></i>Transactions</LinkTo></li>
-        <li><LinkTo @route="wallet"><i class="fa-solid fa-wallet"></i>Your Wallet</LinkTo></li>
-        <li><LinkTo @route="profile"><i class="fa-solid fa-address-card"></i>Profile</LinkTo></li>
+        <li class="{{if (eq this.router.currentRouteName 'index') 'color_li'}}"><LinkTo @route="index"><i class="fa-solid fa-house-chimney"></i>Home</LinkTo></li>
+        <li class="{{if (eq this.router.currentRouteName 'subscriptions') 'color_li'}}"><LinkTo @route="subscriptions"><i class="fa-solid fa-money-check-dollar"></i>Subscriptions</LinkTo></li>
+        <li class="{{if (eq this.router.currentRouteName 'transactions') 'color_li'}}"><LinkTo @route="transactions"><i class="fa-solid fa-money-bill-transfer"></i>Transactions</LinkTo></li>
+        <li class="{{if (eq this.router.currentRouteName 'wallet') 'color_li'}}"><LinkTo @route="wallet"><i class="fa-solid fa-wallet"></i>Wallet</LinkTo></li>
+        <li class="{{if (eq this.router.currentRouteName 'profile') 'color_li'}}"><LinkTo @route="profile"><i class="fa-solid fa-address-card"></i>Profile</LinkTo></li>
+        
     </ul>
 
     <div class="company">

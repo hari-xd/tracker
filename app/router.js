@@ -11,4 +11,5 @@ Router.map(function () {
   this.route('transactions');
   this.route('wallet');
   this.route('profile');
+  this.route('add-money');
 });

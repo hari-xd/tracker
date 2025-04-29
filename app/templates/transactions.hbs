@@ -1,2 +1,100 @@
 {{page-title "Transactions"}}
-{{outlet}}
+
+<div class="transactions-page">
+    <div class="designer-line">
+        <h1>Your Transactions</h1>
+    </div>
+
+    <div class="transactions">
+        <div class="tran-top">
+            <div class="start-date">
+                <p>Start Date:</p>
+                <input type="date">
+            </div>
+            <div class="end-data">
+                <p>End Date:</p>
+                <input type="date">
+            </div>
+            <div class="tran-type">
+                <p>Transaction Type:</p>
+                <select name="tran-type" id="tran-type">
+                    <option value="choose">Choose Type</option>
+                    <option value="credit">Credit</option>
+                    <option value="debit">Debit</option>
+                    <option value="refund">Refund</option>
+                </select>
+            </div>
+            <div class="export">
+                
+                <button><i class="fa-solid fa-download"></i>Export as CSV</button>
+            </div>
+        </div>
+
+        <div class="transactions-splitup">
+            <div class="transaction-container">
+                <div class="transaction-date">
+                    <h2>Today</h2>
+                </div>
+                <div class="transaction-contain">
+                    {{#each this.model as |transactions|}}
+                        {{#if transactions}}
+                        <div class="transactionsss">
+                    
+                    <div class="transactions-details">
+                        <img src="assets/images/{{transactions.subscriptionType}}.png" alt="logo">
+                        <div class="transactions-left">
+                            <h3>{{transactions.subscriptionName}}</h3>
+                            <div class="transactions-notes">
+                                <p>{{transactions.paymentMethod}}</p>
+                                <i class="fa-solid fa-circle"></i>
+                                <p>{{transactions.subscriptionStatus}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="transaction-amount">
+                        {{#if ( eq transactions.subscriptionStatus 'expired') }}
+                        <h3 class="{{if ( eq transactions.subscriptionStatus 'expired') 'refund'}}">+{{transactions.subscriptionPrice}}</h3>
+                        {{else}}
+                          <h3>-{{transactions.subscriptionPrice}}</h3>
+                        {{/if}}
+                        <p>Available Balance : ${{transactions.balance}}</p>
+                    </div>
+                </div>
+                        {{/if}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{!-- <div class="transaction-table">
+            <table>
+            <thead>
+                <tr>
+                    <th>Subscription Name</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.transactions as |transactions|}}
+                <tr>
+                    <td>
+                        <div class="transactions-left">
+                        <div>
+                            <img src="assets/images/netflix.png" alt="logo">
+                        </div>
+                        <div class="transactions-left-split">
+                            <h3>Netflix</h3>
+                            <p>Credit card</p>
+                        </div>
+                    </div>
+                    </td>
+                    <td>15.99</td>
+                </tr>
+                {{/each}}
+                
+            </tbody>
+        </table>
+        </div> --}}
+
+        
+    </div>
+</div>

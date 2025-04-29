@@ -6,7 +6,7 @@
         "subscriptionPlan": "basic",
         "billingCycle": "monthly",
         "subscriptionType": "netlfix",
-        "paymentMethod": "credit card",
+        "paymentMethod": "assets/images/netflix.png",
         "subscriptionStartDate": "01-04-2025",
         "subscriptionEndDate": "01-05-2025",
         "subscriptionStatus": "active"

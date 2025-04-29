@@ -1,7 +1,7 @@
 {{page-title "Wallet"}}
 <div class="wallet-design">
     <div class="designer-line">
-        <h1>Wallet</h1>
+        <h1>Your Wallet</h1>
 </div>
 </div>
 <div class="wallet-page">
@@ -12,25 +12,28 @@
                 <h3>Available balance</h3>
                 <button type="button" {{on "click" this.addMoney}}>Add Money</button>
             </div>
-            <h1>${{this.amount}}</h1>
+            <h1>$ {{this.model}}</h1>
+            {{!-- <h1>${{if (eq this.amount this.model)this.model this.amount }}</h1> --}}
         </div>
 
         <div class="balance-card">
             <div class="balance-card-top">
-                <h3>Total Money Crdited</h3>
+                <h3>Total Money Credited</h3>
             </div>
-            <h1>$1234</h1>
+            <h1>$ ---</h1>
         </div>
         </div>
     </div>
-<div class="wallet-right">
+<div class="wallet-right" {{on-click-outside this.closeAddMoney exceptSelector=".wallet-page"}}>
      {{#if this.addMoneyClicked}} 
         <form>
         <div class="add-money">
             <h3>Add Money</h3>
             <div class="amount-input">
-                <label for="amount">Amount:</label>
+                <div>
+                    <label for="amount">Amount:</label>
             <input type="number" id="amount" placeholder="Enter amount" {{on "input" this.updateAmount}}/>
+                </div>
             </div>
             <button type="button" {{on "click" this.submitAmount}}>Add Money</button>
             {{!-- <div class="payment-select">
@@ -44,7 +47,5 @@
         </div>
     </form>
      {{/if}} 
-    
-
     </div>
 </div>

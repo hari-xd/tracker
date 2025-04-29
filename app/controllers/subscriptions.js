@@ -8,6 +8,7 @@ export default class SubscriptionsController extends Controller {
 
   @tracked editSubscription = false;
   @tracked data = {};
+  @tracked transactionHistory = [];
   @tracked newArray = [];
   @tracked newObj = {};
   @tracked subscriptionId = 0;
@@ -24,7 +25,7 @@ export default class SubscriptionsController extends Controller {
     super(...args);
     this.loadInitialTable();
   }
-  loadInitialTable(){
+  loadInitialTable() {
     this.data = JSON.parse(localStorage.getItem('data'));
   }
 
@@ -80,79 +81,190 @@ export default class SubscriptionsController extends Controller {
     console.log(this.subscriptionEndDate);
     return this.subscriptionEndDate;
   }
-
+  getdate(){
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    this.formattedDate = `${day}-${month}-${year}`;
+    console.log(this.formattedDate);
+    return this.formattedDate;
+}
   @action
   submitForm() {
+    if(this.paymentMethod == "wallet" && parseInt(localStorage.getItem('amount')) < parseInt(this.subscriptionPrice)){
+      this.addSubscription = false;
+    }
+    else{
     this.data = JSON.parse(localStorage.getItem('data'));
+    let reduceAmount = localStorage.getItem('amount');
+    let Availbalance = localStorage.getItem('amount');
     // console.log('hi');
     // let data = JSON.parse(localStorage.getItem("data"))
     // this.newArray = [this.subscriptionName,this.subscriptionPrice, this.subscriptionPlan,this.billingCycle, this.paymentMethod,
     //     this.subscriptionStartDate,this.subscriptionEndDate];
-
+    if(this.paymentMethod == "wallet"){
+      Availbalance = localStorage.getItem('amount')-parseInt(this.subscriptionPrice);
+    }
     this.newObj = {
-      "subscriptionName": this.subscriptionName,
-      "subscriptionPrice": parseInt(this.subscriptionPrice),
-      "subscriptionPlan": this.subscriptionPlan,
-      "billingCycle": this.billingCycle,
-      "subscriptionType": this.subscriptionName.toLowerCase(),
-      "paymentMethod": this.paymentMethod,
-      "subscriptionStartDate": this.subscriptionStartDate,
-      "subscriptionEndDate": this.subscriptionEndDate,
-      "subscriptionStatus": 'active',
+      id: this.data.length + 1,
+      subscriptionName: this.subscriptionName.toLowerCase(),
+      subscriptionPrice: parseInt(this.subscriptionPrice),
+      subscriptionPlan: this.subscriptionPlan,
+      billingCycle: this.billingCycle,
+      subscriptionType: this.subscriptionName.toLowerCase(),
+      paymentMethod: this.paymentMethod,
+      subscriptionStartDate: this.subscriptionStartDate,
+      subscriptionEndDate: this.subscriptionEndDate,
+      subscriptionStatus: 'active',
+      type: 'credit',
+      balance: parseInt(Availbalance),
+      transactiondate: this.getdate(),
     };
-
+    
+    
+    // this.transactionHistory[this.transactionHistory.length] = this.newObj;
+    this.transactionHistory = [...this.transactionHistory,this.newObj];
+    
+    localStorage.setItem (
+      'transactions',
+      JSON.stringify(this.transactionHistory),
+    );
+    if (this.paymentMethod == 'wallet') {
+      reduceAmount = parseInt(reduceAmount) - parseInt(this.subscriptionPrice);
+    }
+    localStorage.setItem('amount', reduceAmount);
     // this.data = { ...this.data, [Object.keys(this.data).length]: this.newObj };
 
     // localStorage.setItem('data', JSON.stringify(this.data));
     console.log(this.data);
 
-    this.data[this.data.length+1] = this.newObj;
+    this.data[this.data.length] = this.newObj;
     localStorage.setItem('data', JSON.stringify(this.data));
-    console.log(JSON.parse(localStorage.getItem("data")));
+    console.log(JSON.parse(localStorage.getItem('data')));
     this.loadInitialTable();
+    this.addSubscription = false;
     return this.data;
   }
+}
 
   @action
-  editButtonClicked(id){
+  editButtonClicked(id) {
     this.subscriptionId = id;
-    this.editSubscription = !this.editSubscription
-    console.log(this.data[id-1]);
+    this.editSubscription = !this.editSubscription;
+    console.log(this.data[id - 1]);
   }
 
   @action
-  deleteButtonClicked(id){
-    delete this.data[id-1];
-    // this.data[id-1].remove();
-    
+  deleteButtonClicked(id) {
+    let refundAmount = localStorage.getItem('amount');
+    // refundAmount = parseInt(refundAmount)+parseInt(this.data[id - 1].subscriptionPrice);
+    // localStorage.setItem('amount', refundAmount);
+    // this.data[id - 1].subscriptionStatus = "Expired"
+    // // delete this.data[id - 1];
+    // localStorage.setItem('data', JSON.stringify(this.data));
+    // this.loadInitialTable();
+
+    if (this.data[id - 1].paymentMethod == 'wallet') {
+      if (this.data[id - 1].subscriptionStatus.toLowerCase() == 'active') {
+        refundAmount =
+          parseInt(refundAmount) +
+          parseInt(this.data[id - 1].subscriptionPrice);
+        localStorage.setItem('amount', refundAmount);
+        this.data[id - 1].subscriptionStatus = 'expired';
+        this.data[id - 1].balance = localStorage.getItem('amount');
+
+        // delete this.data[id - 1];
+        this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
+        localStorage.setItem(
+          'transactions',
+          JSON.stringify(this.transactionHistory),
+        );
+        localStorage.setItem('data', JSON.stringify(this.data));
+        this.loadInitialTable();
+      } else {
+        refundAmount =
+          parseInt(refundAmount) -
+          parseInt(this.data[id - 1].subscriptionPrice);
+        localStorage.setItem('amount', refundAmount);
+        this.data[id - 1].subscriptionStatus = 'active';
+        this.data[id - 1].balance = localStorage.getItem('amount');
+
+        this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
+        localStorage.setItem(
+          'transactions',
+          JSON.stringify(this.transactionHistory),
+        );
+        localStorage.setItem('data', JSON.stringify(this.data));
+        this.loadInitialTable();
+      }
+    } else {
+      if (this.data[id - 1].subscriptionStatus.toLowerCase() == 'active') {
+        this.data[id - 1].subscriptionStatus = 'expired';
+        this.data[id - 1].balance = localStorage.getItem('amount');
+        // delete this.data[id - 1];
+        this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
+        localStorage.setItem(
+          'transactions',
+          JSON.stringify(this.transactionHistory),
+        );
+        localStorage.setItem('data', JSON.stringify(this.data));
+        this.loadInitialTable();
+      } else {
+        this.data[id - 1].subscriptionStatus = 'active';
+        this.data[id - 1].balance = localStorage.getItem('amount');
+
+        this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
+        localStorage.setItem(
+          'transactions',
+          JSON.stringify(this.transactionHistory),
+        );
+        localStorage.setItem('data', JSON.stringify(this.data));
+        this.loadInitialTable();
+      }
+    }
+  }
+
+  @action
+  permanentDeleteButtonClicked(id) {
+    delete this.data[id - 1];
     localStorage.setItem('data', JSON.stringify(this.data));
-    console.log(JSON.parse(localStorage.getItem("data")));
     this.loadInitialTable();
   }
 
   @action
-  updateSubscription(id){
+  updateSubscription(id) {
     console.log(id);
-    
-    this.data[id-1] = {
-      "id":id,
-      "subscriptionName": this.subscriptionName,
-      "subscriptionPrice": parseInt(this.subscriptionPrice),
-      "subscriptionPlan": this.subscriptionPlan,
-      "billingCycle": this.billingCycle,
-      "subscriptionType": this.subscriptionName.toLowerCase(),
-      "paymentMethod": this.paymentMethod,
-      "subscriptionStartDate": this.subscriptionStartDate,
-      "subscriptionEndDate": this.subscriptionEndDate,
-      "subscriptionStatus": 'active',
-    }
+
+    this.data[id - 1] = {
+      id: id,
+      subscriptionName: this.subscriptionName.toLowerCase(),
+      subscriptionPrice: parseInt(this.subscriptionPrice),
+      subscriptionPlan: this.subscriptionPlan,
+      billingCycle: this.billingCycle,
+      subscriptionType: this.subscriptionName.toLowerCase(),
+      paymentMethod: this.paymentMethod,
+      subscriptionStartDate: this.subscriptionStartDate,
+      subscriptionEndDate: this.subscriptionEndDate,
+      subscriptionStatus: 'active',
+    };
     localStorage.setItem('data', JSON.stringify(this.data));
     console.log(this.data);
     this.editSubscription = false;
     this.loadInitialTable();
   }
   @action
-  cancelEdit(){
-    this.editSubscription = false
+  cancelEdit() {
+    this.editSubscription = false;
+  }
+
+  @action
+  closeEditSubscription() {
+    this.editSubscription = false;
+  }
+
+  @action
+  closeAddSubscription() {
+    this.addSubscription = false;
   }
 }

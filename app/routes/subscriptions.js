@@ -6,7 +6,6 @@ export default class SubscriptionsRoute extends Route {
     // // let data = JSON.parse(localStorage.getItem("data"));
     // let data = await response.json();
     // localStorage.setItem('data', JSON.stringify(data));
-
     // // // console.log(typeof(JSON.parse(localStorage.getItem("data"))[0]));
     // return data;
   }
