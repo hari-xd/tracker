@@ -17,8 +17,8 @@
             </div>
             <div class="tran-type">
                 <p>Transaction Type:</p>
-                <select name="tran-type" id="tran-type">
-                    <option value="choose">Choose Type</option>
+                <select name="tran-type" id="tran-type" {{on "input" this.updateTransactionType}}>
+                    <option value="all" selected >All transactions</option>
                     <option value="credit">Credit</option>
                     <option value="debit">Debit</option>
                     <option value="refund">Refund</option>
@@ -32,11 +32,12 @@
 
         <div class="transactions-splitup">
             <div class="transaction-container">
-                <div class="transaction-date">
+                {{!-- <div class="transaction-date">
                     <h2>Today</h2>
-                </div>
+                </div> --}}
                 <div class="transaction-contain">
-                    {{#each this.model as |transactions|}}
+                    {{#if this.digiwallet.transact}}
+                    {{#each this.digiwallet.transact as |transactions|}}
                         {{#if transactions}}
                         <div class="transactionsss">
                     
@@ -47,21 +48,29 @@
                             <div class="transactions-notes">
                                 <p>{{transactions.paymentMethod}}</p>
                                 <i class="fa-solid fa-circle"></i>
-                                <p>{{transactions.subscriptionStatus}}</p>
+                                <p>{{transactions.type}}</p>
+                                <i class="fa-solid fa-circle"></i>
+                                <p>{{transactions.transactiondate}}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="transaction-amount">
-                        {{#if ( eq transactions.subscriptionStatus 'expired') }}
-                        <h3 class="{{if ( eq transactions.subscriptionStatus 'expired') 'refund'}}">+{{transactions.subscriptionPrice}}</h3>
+                    <div class="transaction-amount refund">
+                        {{#if ( eq transactions.type 'debit')  }}
+                        <h3 class="{{if ( eq transactions.type 'debit') 'debit'}}">-{{transactions.subscriptionPrice}}</h3>
                         {{else}}
-                          <h3>-{{transactions.subscriptionPrice}}</h3>
+                          <h3>+{{transactions.subscriptionPrice}}</h3>
                         {{/if}}
                         <p>Available Balance : ${{transactions.balance}}</p>
                     </div>
                 </div>
                         {{/if}}
                     {{/each}}
+
+                    {{else}}
+                    <div class="no-results">
+                        <p>No results found</p>
+                    </div>
+                    {{/if}}
                 </div>
             </div>
         </div>

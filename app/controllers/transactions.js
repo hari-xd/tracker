@@ -1,7 +1,12 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
+import { action } from '@ember/object';
+
 
 export default class TransactionsController extends Controller {
+    @service digiwallet;
+    @ tracked transactions = [];
     // @tracked transactions = { };
     // @tracked formattedDate = '';
 
@@ -22,4 +27,10 @@ export default class TransactionsController extends Controller {
     //     console.log(this.formattedDate);
     //     return this.formattedDate;
     // }
+    @action
+    updateTransactionType(){
+        this.digiwallet.gettransactiontype(event.target.value);
+        this.digiwallet.getransactions();
+        this.transactions = this.digiwallet.getransactions();
+    }
 }

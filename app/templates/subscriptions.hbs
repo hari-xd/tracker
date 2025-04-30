@@ -52,51 +52,42 @@
             </tbody>
         </table> --}}
            
-            <div class="subscriptions-cards">
+            <div class="cards-container">
+                <div class="subscriptions-cards">
         {{!-- {{#if (gt this.data.length 1)}} --}}
         {{#if this.data }}
             {{#each this.data as |subscription|}}
                 {{#if subscription}}
                 <div class="subscription-card">
                     <div class="card-top">
-                        <div class="plan-type">
-                            <p>{{subscription.subscriptionPlan}}</p>
-                        </div>
-                        <div class="plan-status ">
-                            {{!-- {{if (eq subscription.subscriptionStatus 'active') 'active-status'}} --}}
+                        
+                        <div class="plan-status {{if (eq subscription.subscriptionStatus 'active') 'active-status'}}">
+                            
                             <p>{{subscription.subscriptionStatus}}</p>
                         </div>
                     </div>
-                    <div class="card-left">
-                    <img src="assets/images/{{subscription.subscriptionType}}.png" alt="logo">
-                    </div>
+                    
                     <div class="card-right">
+                        <div class="logo-text">
+                            <div class="logo-img">
+                                <img src="assets/images/{{subscription.subscriptionType}}.png" alt="logo">
+                            </div>
                         <h2>{{subscription.subscriptionName}}</h2>
-                        <div class="card-right-split">
-                            <div class="card-right-price-split">
-                            <i class="fa-solid fa-money-check-dollar"></i>
-                            <p>: ${{subscription.subscriptionPrice}}</p>
                         </div>
-                        
+                        <div class="sub-notes">
+                            <p>Plan: {{subscription.subscriptionPlan}}</p>
+                            <p>Plan type: {{subscription.billingCycle}}</p>
+                            
+                        </div>
+                        <div class="card-price">
+                            <h3>${{subscription.subscriptionPrice}} <span>/ {{subscription.billingCycle}}</span></h3>
+                            <h3>
+                                <span> <i class="fa-solid fa-wallet"></i> : </span> 
+                                {{subscription.paymentMethod}}
+                            </h3>
+                            
+                        </div>
 
-                        <div class="card-right-billing-split">
-                            <i class="fa-solid fa-receipt"></i>
-                            <p>: {{subscription.billingCycle}}</p>
-                        </div>
-                        </div>
-
-                        <div class="card-right-split">
-                            <div class="card-right-price-split">
-                                <i class="fa-solid fa-credit-card"></i>
-                                <p>: {{subscription.paymentMethod}}</p>
-                        </div>
-                        
-
-                        <div class="card-right-billing-split">
-                            <i class="fa-solid fa-credit-card"></i>
-                            <p>: {{subscription.paymentMethod}}</p>
-                        </div>
-                        </div>
                         
                     <div class="card-button">
                         {{#if (eq subscription.subscriptionStatus "active")}}
@@ -105,11 +96,11 @@
                         {{#if (eq subscription.subscriptionStatus "active")}}
                         <button type="button" {{on "click" (fn this.deleteButtonClicked subscription.id)}}><i class="fa-solid fa-eraser"></i>Disable</button>
                         {{/if}}
-                        {{#if (eq subscription.subscriptionStatus "expired")}}
-                        <button type="button" {{on "click" (fn this.deleteButtonClicked subscription.id)}}>Activate</button>
+                        {{#if (eq subscription.subscriptionStatus "cancelled")}}
+                        <button type="button" {{on "click" (fn this.deleteButtonClicked subscription.id)}}><i class="fa-solid fa-circle-check"></i> Activate</button>
                         {{/if}}
 
-                        {{#if (eq subscription.subscriptionStatus "expired")}}
+                        {{#if (eq subscription.subscriptionStatus "cancelled")}}
                         <button type="button" {{on "click" (fn this.permanentDeleteButtonClicked subscription.id)}}><i class="fa-solid fa-trash"></i>Delete</button>
                         {{/if}}
                     </div>
@@ -122,6 +113,7 @@
         {{/if}}
     
            </div>
+            </div>
     </div>
 
 
@@ -169,7 +161,7 @@
                 <select id="billingCycle" name="billingCycle" required {{on "input" this.updateBillingCycle}}>
                     <option value="">Choose Your Biling Cycle</option>
                     <option value="monthly">Monthly</option>
-                    <option value="three months">3 Months Once</option>
+                    <option value="3 months">3 Months Once</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 </div>
@@ -239,7 +231,7 @@
                 <select id="billingCycle" name="billingCycle" required {{on "input" this.updateBillingCycle}}>
                     <option value="">Choose Your Biling Cycle</option>
                     <option value="monthly">Monthly</option>
-                    <option value="three months">3 Months Once</option>
+                    <option value="3 months">3 Months Once</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 </div>

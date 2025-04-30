@@ -6,7 +6,7 @@
         "subscriptionPlan": "basic",
         "billingCycle": "monthly",
         "subscriptionType": "netlfix",
-        "paymentMethod": "assets/images/netflix.png",
+        "paymentMethod": "debit card",
         "subscriptionStartDate": "01-04-2025",
         "subscriptionEndDate": "01-05-2025",
         "subscriptionStatus": "active"
@@ -97,7 +97,6 @@
     },
     {
         "id": 9,
-
         "subscriptionName": "Disney+",
         "subscriptionPrice": 8.63,
         "subscriptionPlan": "basic",

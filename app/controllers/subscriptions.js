@@ -117,19 +117,24 @@ export default class SubscriptionsController extends Controller {
       subscriptionStartDate: this.subscriptionStartDate,
       subscriptionEndDate: this.subscriptionEndDate,
       subscriptionStatus: 'active',
-      type: 'credit',
+      type: 'debit',
       balance: parseInt(Availbalance),
       transactiondate: this.getdate(),
     };
     
     
     // this.transactionHistory[this.transactionHistory.length] = this.newObj;
-    this.transactionHistory = [...this.transactionHistory,this.newObj];
+    // this.transactionHistory = [...this.transactionHistory,this.newObj];
     
-    localStorage.setItem (
-      'transactions',
-      JSON.stringify(this.transactionHistory),
-    );
+    // localStorage.setItem (
+    //   'transactions',
+    //   JSON.stringify(this.transactionHistory),
+    // );
+
+    this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
+    this.transactionHistory.push(this.newObj);
+    localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
+
     if (this.paymentMethod == 'wallet') {
       reduceAmount = parseInt(reduceAmount) - parseInt(this.subscriptionPrice);
     }
@@ -160,7 +165,7 @@ export default class SubscriptionsController extends Controller {
     let refundAmount = localStorage.getItem('amount');
     // refundAmount = parseInt(refundAmount)+parseInt(this.data[id - 1].subscriptionPrice);
     // localStorage.setItem('amount', refundAmount);
-    // this.data[id - 1].subscriptionStatus = "Expired"
+    // this.data[id - 1].subscriptionStatus = "cancelled"
     // // delete this.data[id - 1];
     // localStorage.setItem('data', JSON.stringify(this.data));
     // this.loadInitialTable();
@@ -171,15 +176,21 @@ export default class SubscriptionsController extends Controller {
           parseInt(refundAmount) +
           parseInt(this.data[id - 1].subscriptionPrice);
         localStorage.setItem('amount', refundAmount);
-        this.data[id - 1].subscriptionStatus = 'expired';
+        this.data[id - 1].subscriptionStatus = 'cancelled';
+        this.data[id - 1].type = 'refund';
         this.data[id - 1].balance = localStorage.getItem('amount');
 
         // delete this.data[id - 1];
-        this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
-        localStorage.setItem(
-          'transactions',
-          JSON.stringify(this.transactionHistory),
-        );
+        // this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
+        // localStorage.setItem(
+        //   'transactions',
+        //   JSON.stringify(this.transactionHistory),
+        // );
+
+        this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
+        this.transactionHistory.push(this.data[id - 1]);
+        localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
+
         localStorage.setItem('data', JSON.stringify(this.data));
         this.loadInitialTable();
       } else {
@@ -188,37 +199,47 @@ export default class SubscriptionsController extends Controller {
           parseInt(this.data[id - 1].subscriptionPrice);
         localStorage.setItem('amount', refundAmount);
         this.data[id - 1].subscriptionStatus = 'active';
+        this.data[id - 1].type = 'debit';
         this.data[id - 1].balance = localStorage.getItem('amount');
 
-        this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
-        localStorage.setItem(
-          'transactions',
-          JSON.stringify(this.transactionHistory),
-        );
+        // this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
+        // localStorage.setItem(
+        //   'transactions',
+        //   JSON.stringify(this.transactionHistory),
+        // );
+        this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
+        this.transactionHistory.push(this.data[id - 1]);
+        localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
+
+
         localStorage.setItem('data', JSON.stringify(this.data));
         this.loadInitialTable();
       }
     } else {
       if (this.data[id - 1].subscriptionStatus.toLowerCase() == 'active') {
-        this.data[id - 1].subscriptionStatus = 'expired';
+        this.data[id - 1].subscriptionStatus = 'cancelled';
+        this.data[id - 1].type = 'refund';
         this.data[id - 1].balance = localStorage.getItem('amount');
         // delete this.data[id - 1];
-        this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
-        localStorage.setItem(
-          'transactions',
-          JSON.stringify(this.transactionHistory),
-        );
+
+
+        this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
+        this.transactionHistory.push(this.data[id - 1]);
+        localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
+
+
         localStorage.setItem('data', JSON.stringify(this.data));
         this.loadInitialTable();
       } else {
         this.data[id - 1].subscriptionStatus = 'active';
+        this.data[id - 1].type = 'debit';
         this.data[id - 1].balance = localStorage.getItem('amount');
 
-        this.transactionHistory[this.transactionHistory.length] = this.data[id - 1];
-        localStorage.setItem(
-          'transactions',
-          JSON.stringify(this.transactionHistory),
-        );
+        this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
+        this.transactionHistory.push(this.data[id - 1]);
+        localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
+
+        
         localStorage.setItem('data', JSON.stringify(this.data));
         this.loadInitialTable();
       }

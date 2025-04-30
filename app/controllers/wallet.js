@@ -14,12 +14,18 @@ export default class WalletController extends Controller {
   @tracked upamount = 0;
 
   @tracked transactions = [];
+  getdate(){
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    this.formattedDate = `${day}-${month}-${year}`;
+    console.log(this.formattedDate);
+    return this.formattedDate;
+}
 
   addMoneyTransaction(){
-    localStorage.setItem (
-      'transactions',
-      JSON.stringify(this.transactions),
-    );
+    
     this.transactions = JSON.parse(localStorage.getItem('transactions'));
     this.transactions[this.transactions.length] = {
       subscriptionName:"Amount Credited",
@@ -27,7 +33,9 @@ export default class WalletController extends Controller {
       paymentMethod:"Debit",
       subscriptionStatus:'expired',
       balance: this.amount,
+      type:"credit",
       subscriptionPrice:parseInt(this.upamount),
+      transactiondate: this.getdate(),
     };
     console.log(this.transactions);
     localStorage.setItem (
@@ -38,11 +46,10 @@ export default class WalletController extends Controller {
   constructor(...args) {
     super(...args);
     this.loadInitialAmount();
+    this.digiwallet.getamount();
   }
   loadInitialAmount() {
-    // this.amount = localStorage.getItem('amount');
-    this.amount = this.digiwallet.getAmount;
-    console.log('conteoll', this.amount);
+    this.amount = localStorage.getItem('amount');
   }
 
   @action
@@ -66,7 +73,8 @@ export default class WalletController extends Controller {
     this.amount = parseInt(this.amount) + parseInt(this.upamount);
     this.digiwallet.updateAmount(this.amount);
     localStorage.setItem('amount', this.amount);
-    
+    this.digiwallet.getamount();
+    this.digiwallet.getTotalAmountCredited(parseInt(this.upamount));
     this.addMoneyTransaction();
     this.addMoneyClicked = false;
     return this.amount;

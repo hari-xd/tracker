@@ -4,9 +4,9 @@ import { service } from '@ember/service';
 export default class WalletRoute extends Route {
   @service digiwallet;
   model() {
-    let amount = this.digiwallet.getAmount;
-    
-    console.log('route', amount);
+    this.digiwallet.getamount();
+    let amount = localStorage.getItem('amount');
+    console.log(amount)
     return amount;
   }
 }

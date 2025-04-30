@@ -12,7 +12,7 @@
                 <h3>Available balance</h3>
                 <button type="button" {{on "click" this.addMoney}}>Add Money</button>
             </div>
-            <h1>$ {{this.model}}</h1>
+            <h1>$ {{this.digiwallet.walletAmount}}</h1>
             {{!-- <h1>${{if (eq this.amount this.model)this.model this.amount }}</h1> --}}
         </div>
 
@@ -20,7 +20,7 @@
             <div class="balance-card-top">
                 <h3>Total Money Credited</h3>
             </div>
-            <h1>$ ---</h1>
+            <h1>$ {{this.digiwallet.totalAmount}}</h1>
         </div>
         </div>
     </div>
