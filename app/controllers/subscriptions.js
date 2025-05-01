@@ -202,6 +202,9 @@ export default class SubscriptionsController extends Controller {
         localStorage.setItem('data', JSON.stringify(this.data));
         this.data = this.digiwallet.loadInitialTable();
       } else {
+        if(parseInt(refundAmount)>=parseInt(this.data[id - 1].subscriptionPrice)){
+
+        
         refundAmount =
           parseInt(refundAmount) -
           parseInt(this.data[id - 1].subscriptionPrice);
@@ -224,8 +227,10 @@ export default class SubscriptionsController extends Controller {
         );
 
         localStorage.setItem('data', JSON.stringify(this.data));
+        this.digiwallet.autoDeductMoney(this.data.length);
         this.data = this.digiwallet.loadInitialTable();
       }
+    }
     } else {
       if (this.data[id - 1].subscriptionStatus.toLowerCase() == 'active') {
         this.data[id - 1].subscriptionStatus = 'cancelled';
