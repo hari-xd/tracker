@@ -55,8 +55,8 @@
             <div class="cards-container">
                 <div class="subscriptions-cards">
         {{!-- {{#if (gt this.data.length 1)}} --}}
-        {{#if this.data }}
-            {{#each this.data as |subscription|}}
+        {{#if this.digiwallet.data}}
+            {{#each this.digiwallet.data as |subscription|}}
                 {{#if subscription}}
                 <div class="subscription-card">
                     <div class="card-top">

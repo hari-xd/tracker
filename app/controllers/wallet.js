@@ -7,7 +7,7 @@ export default class WalletController extends Controller {
   @service digiwallet;
 
   @tracked addMoneyClicked = false;
-  @tracked amount = this.digiwallet.getAmount;
+  @tracked amount = localStorage.getItem("amount");
   // @tracked amount = 100;
 
   @tracked paymentType = '';
@@ -70,6 +70,9 @@ export default class WalletController extends Controller {
 
   @action
   submitAmount() {
+    this.amount = localStorage.getItem("amount")
+    console.log(parseInt(this.amount));
+    console.log(parseInt(this.upamount));
     this.amount = parseInt(this.amount) + parseInt(this.upamount);
     this.digiwallet.updateAmount(this.amount);
     localStorage.setItem('amount', this.amount);

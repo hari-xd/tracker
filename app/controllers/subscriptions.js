@@ -7,7 +7,7 @@ export default class SubscriptionsController extends Controller {
   @service digiwallet;
 
   @tracked editSubscription = false;
-  @tracked data = {};
+  @tracked data = this.digiwallet.loadInitialTable() || {};
   @tracked transactionHistory = [];
   @tracked newArray = [];
   @tracked newObj = {};
@@ -23,11 +23,8 @@ export default class SubscriptionsController extends Controller {
 
   constructor(...args) {
     super(...args);
-    this.loadInitialTable();
   }
-  loadInitialTable() {
-    this.data = JSON.parse(localStorage.getItem('data'));
-  }
+
 
   @action
   addSubscriptionForm() {
@@ -105,6 +102,7 @@ export default class SubscriptionsController extends Controller {
     //     this.subscriptionStartDate,this.subscriptionEndDate];
     if(this.paymentMethod == "wallet"){
       Availbalance = localStorage.getItem('amount')-parseInt(this.subscriptionPrice);
+      
     }
     this.newObj = {
       id: this.data.length + 1,
@@ -135,20 +133,24 @@ export default class SubscriptionsController extends Controller {
     this.transactionHistory.push(this.newObj);
     localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
 
-    if (this.paymentMethod == 'wallet') {
+     if (this.paymentMethod == 'wallet') {
       reduceAmount = parseInt(reduceAmount) - parseInt(this.subscriptionPrice);
     }
     localStorage.setItem('amount', reduceAmount);
     // this.data = { ...this.data, [Object.keys(this.data).length]: this.newObj };
 
     // localStorage.setItem('data', JSON.stringify(this.data));
-    console.log(this.data);
+
 
     this.data[this.data.length] = this.newObj;
     localStorage.setItem('data', JSON.stringify(this.data));
-    console.log(JSON.parse(localStorage.getItem('data')));
-    this.loadInitialTable();
+    
+    
+
+
+   this.data = this.digiwallet.loadInitialTable();
     this.addSubscription = false;
+    this.digiwallet.autoDeductMoney(this.data.length);
     return this.data;
   }
 }
@@ -157,7 +159,6 @@ export default class SubscriptionsController extends Controller {
   editButtonClicked(id) {
     this.subscriptionId = id;
     this.editSubscription = !this.editSubscription;
-    console.log(this.data[id - 1]);
   }
 
   @action
@@ -168,7 +169,7 @@ export default class SubscriptionsController extends Controller {
     // this.data[id - 1].subscriptionStatus = "cancelled"
     // // delete this.data[id - 1];
     // localStorage.setItem('data', JSON.stringify(this.data));
-    // this.loadInitialTable();
+    //this.data = this.digiwallet.loadInitialTable();
 
     if (this.data[id - 1].paymentMethod == 'wallet') {
       if (this.data[id - 1].subscriptionStatus.toLowerCase() == 'active') {
@@ -192,7 +193,7 @@ export default class SubscriptionsController extends Controller {
         localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
 
         localStorage.setItem('data', JSON.stringify(this.data));
-        this.loadInitialTable();
+       this.data = this.digiwallet.loadInitialTable();
       } else {
         refundAmount =
           parseInt(refundAmount) -
@@ -213,7 +214,7 @@ export default class SubscriptionsController extends Controller {
 
 
         localStorage.setItem('data', JSON.stringify(this.data));
-        this.loadInitialTable();
+       this.data = this.digiwallet.loadInitialTable();
       }
     } else {
       if (this.data[id - 1].subscriptionStatus.toLowerCase() == 'active') {
@@ -229,7 +230,7 @@ export default class SubscriptionsController extends Controller {
 
 
         localStorage.setItem('data', JSON.stringify(this.data));
-        this.loadInitialTable();
+       this.data = this.digiwallet.loadInitialTable();
       } else {
         this.data[id - 1].subscriptionStatus = 'active';
         this.data[id - 1].type = 'debit';
@@ -241,7 +242,7 @@ export default class SubscriptionsController extends Controller {
 
         
         localStorage.setItem('data', JSON.stringify(this.data));
-        this.loadInitialTable();
+       this.data = this.digiwallet.loadInitialTable();
       }
     }
   }
@@ -250,7 +251,7 @@ export default class SubscriptionsController extends Controller {
   permanentDeleteButtonClicked(id) {
     delete this.data[id - 1];
     localStorage.setItem('data', JSON.stringify(this.data));
-    this.loadInitialTable();
+   this.data = this.digiwallet.loadInitialTable();
   }
 
   @action
@@ -272,7 +273,7 @@ export default class SubscriptionsController extends Controller {
     localStorage.setItem('data', JSON.stringify(this.data));
     console.log(this.data);
     this.editSubscription = false;
-    this.loadInitialTable();
+   this.data = this.digiwallet.loadInitialTable();
   }
   @action
   cancelEdit() {
@@ -288,4 +289,8 @@ export default class SubscriptionsController extends Controller {
   closeAddSubscription() {
     this.addSubscription = false;
   }
+
+
+
+
 }

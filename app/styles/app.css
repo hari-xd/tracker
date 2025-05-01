@@ -604,7 +604,8 @@ nav ul li {
 }
 
 .plan-status{
-  background-color: #faa4a494;
+  background-color: #d33a2c;
+  color: white;
   padding: 5px 10px;
   border-radius: 5px;
 }
@@ -637,6 +638,7 @@ nav ul li {
   align-items: center;
 justify-content: space-between;
   margin: 10px 0 0 0;
+  display: none;
 }
 .sub-notes p{
   text-transform: capitalize;
@@ -645,16 +647,9 @@ justify-content: space-between;
   font-weight: 500;
   font-size: 15px;
   font-family: "Roboto Condensed", sans-serif !important;
+  color: rgba(0, 0, 0, 0.729);
 }
-.sub-notes p:nth-child(1){
-  background-color: #efe2fa;
-  color: #8769a8;
-}
-.sub-notes p:nth-child(2){
-  background-color: #fdebe2;
-  color: #b49781;
 
-}
 .card-price h3{
   text-transform: capitalize;
 }
