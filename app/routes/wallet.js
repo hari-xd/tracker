@@ -6,7 +6,7 @@ export default class WalletRoute extends Route {
   model() {
     this.digiwallet.getamount();
     let amount = localStorage.getItem('amount');
-    console.log(amount)
+    console.log(amount);
     return amount;
   }
 }

@@ -10,6 +10,16 @@
 
     <div class="top-right">
         <i class="fa-solid fa-bell"></i>
+        {{#each this.flashMessages.queue as |flash|}}
+            <FlashMessage @flash={{flash}} as |component flash|>
+                {{#if flash.componentName}}
+                    {{component flash.componentName content=flash.content}}
+                {{else}}
+                    <h6>hi{{component.flashType}}</h6>
+                    <p>{{flash.message}}</p>
+                {{/if}}
+            </FlashMessage>
+        {{/each}}
         <img src="assets/images/profile.png" alt="Profile Image" />
     </div>
 </div>

@@ -7,14 +7,14 @@ export default class WalletController extends Controller {
   @service digiwallet;
 
   @tracked addMoneyClicked = false;
-  @tracked amount = localStorage.getItem("amount");
+  @tracked amount = localStorage.getItem('amount');
   // @tracked amount = 100;
 
   @tracked paymentType = '';
   @tracked upamount = 0;
 
   @tracked transactions = [];
-  getdate(){
+  getdate() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
@@ -22,26 +22,22 @@ export default class WalletController extends Controller {
     this.formattedDate = `${day}-${month}-${year}`;
     console.log(this.formattedDate);
     return this.formattedDate;
-}
+  }
 
-  addMoneyTransaction(){
-    
+  addMoneyTransaction() {
     this.transactions = JSON.parse(localStorage.getItem('transactions'));
     this.transactions[this.transactions.length] = {
-      subscriptionName:"Amount Credited",
-      subscriptionType:"profile",
-      paymentMethod:"Debit",
-      subscriptionStatus:'expired',
+      subscriptionName: 'Amount Credited',
+      subscriptionType: 'profile',
+      paymentMethod: 'Debit',
+      subscriptionStatus: 'expired',
       balance: this.amount,
-      type:"credit",
-      subscriptionPrice:parseInt(this.upamount),
+      type: 'credit',
+      subscriptionPrice: parseInt(this.upamount),
       transactiondate: this.getdate(),
     };
     console.log(this.transactions);
-    localStorage.setItem (
-      'transactions',
-      JSON.stringify(this.transactions),
-    );
+    localStorage.setItem('transactions', JSON.stringify(this.transactions));
   }
   constructor(...args) {
     super(...args);
@@ -70,7 +66,7 @@ export default class WalletController extends Controller {
 
   @action
   submitAmount() {
-    this.amount = localStorage.getItem("amount")
+    this.amount = localStorage.getItem('amount');
     console.log(parseInt(this.amount));
     console.log(parseInt(this.upamount));
     this.amount = parseInt(this.amount) + parseInt(this.upamount);

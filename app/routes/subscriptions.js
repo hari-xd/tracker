@@ -2,9 +2,8 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
 export default class SubscriptionsRoute extends Route {
-
   @service digiwallet;
-  
+
   constructor(...args) {
     super(...args);
     this.digiwallet.loadInitialTable();

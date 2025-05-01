@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 
 export default class IndexController extends Controller {
-
   @tracked totalamount = 0;
   subscriptionsCount() {
     let data = JSON.parse(localStorage.getItem('data'));
@@ -33,7 +32,7 @@ export default class IndexController extends Controller {
     return sum;
   }
 
-  getTotalAmount(){
+  getTotalAmount() {
     this.totalamount = localStorage.getItem('totalAmount');
     return this.totalamount;
   }

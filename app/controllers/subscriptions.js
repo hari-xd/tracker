@@ -25,7 +25,6 @@ export default class SubscriptionsController extends Controller {
     super(...args);
   }
 
-
   @action
   addSubscriptionForm() {
     this.addSubscription = !this.addSubscription;
@@ -78,7 +77,7 @@ export default class SubscriptionsController extends Controller {
     console.log(this.subscriptionEndDate);
     return this.subscriptionEndDate;
   }
-  getdate(){
+  getdate() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
@@ -86,74 +85,78 @@ export default class SubscriptionsController extends Controller {
     this.formattedDate = `${day}-${month}-${year}`;
     console.log(this.formattedDate);
     return this.formattedDate;
-}
+  }
   @action
   submitForm() {
-    if(this.paymentMethod == "wallet" && parseInt(localStorage.getItem('amount')) < parseInt(this.subscriptionPrice)){
+    if (
+      this.paymentMethod == 'wallet' &&
+      parseInt(localStorage.getItem('amount')) <
+        parseInt(this.subscriptionPrice)
+    ) {
       this.addSubscription = false;
+    } else {
+      this.data = JSON.parse(localStorage.getItem('data'));
+      let reduceAmount = localStorage.getItem('amount');
+      let Availbalance = localStorage.getItem('amount');
+      // console.log('hi');
+      // let data = JSON.parse(localStorage.getItem("data"))
+      // this.newArray = [this.subscriptionName,this.subscriptionPrice, this.subscriptionPlan,this.billingCycle, this.paymentMethod,
+      //     this.subscriptionStartDate,this.subscriptionEndDate];
+      if (this.paymentMethod == 'wallet') {
+        Availbalance =
+          localStorage.getItem('amount') - parseInt(this.subscriptionPrice);
+      }
+      this.newObj = {
+        id: this.data.length + 1,
+        subscriptionName: this.subscriptionName.toLowerCase(),
+        subscriptionPrice: parseInt(this.subscriptionPrice),
+        subscriptionPlan: this.subscriptionPlan,
+        billingCycle: this.billingCycle,
+        subscriptionType: this.subscriptionName.toLowerCase(),
+        paymentMethod: this.paymentMethod,
+        subscriptionStartDate: this.subscriptionStartDate,
+        subscriptionEndDate: this.subscriptionEndDate,
+        subscriptionStatus: 'active',
+        type: 'debit',
+        balance: parseInt(Availbalance),
+        transactiondate: this.getdate(),
+      };
+
+      // this.transactionHistory[this.transactionHistory.length] = this.newObj;
+      // this.transactionHistory = [...this.transactionHistory,this.newObj];
+
+      // localStorage.setItem (
+      //   'transactions',
+      //   JSON.stringify(this.transactionHistory),
+      // );
+
+      this.transactionHistory =
+        JSON.parse(localStorage.getItem('transactions')) || [];
+      this.transactionHistory.push(this.newObj);
+      localStorage.setItem(
+        'transactions',
+        JSON.stringify(this.transactionHistory),
+      );
+
+      if (this.paymentMethod == 'wallet') {
+        reduceAmount =
+          parseInt(reduceAmount) - parseInt(this.subscriptionPrice);
+      }
+      localStorage.setItem('amount', reduceAmount);
+      // this.data = { ...this.data, [Object.keys(this.data).length]: this.newObj };
+
+      // localStorage.setItem('data', JSON.stringify(this.data));
+
+      this.data[this.data.length] = this.newObj;
+      localStorage.setItem('data', JSON.stringify(this.data));
+
+      this.data = this.digiwallet.loadInitialTable();
+      this.addSubscription = false;
+      this.digiwallet.autoDeductMoney(this.data.length);
+      return this.data;
     }
-    else{
-    this.data = JSON.parse(localStorage.getItem('data'));
-    let reduceAmount = localStorage.getItem('amount');
-    let Availbalance = localStorage.getItem('amount');
-    // console.log('hi');
-    // let data = JSON.parse(localStorage.getItem("data"))
-    // this.newArray = [this.subscriptionName,this.subscriptionPrice, this.subscriptionPlan,this.billingCycle, this.paymentMethod,
-    //     this.subscriptionStartDate,this.subscriptionEndDate];
-    if(this.paymentMethod == "wallet"){
-      Availbalance = localStorage.getItem('amount')-parseInt(this.subscriptionPrice);
-      
-    }
-    this.newObj = {
-      id: this.data.length + 1,
-      subscriptionName: this.subscriptionName.toLowerCase(),
-      subscriptionPrice: parseInt(this.subscriptionPrice),
-      subscriptionPlan: this.subscriptionPlan,
-      billingCycle: this.billingCycle,
-      subscriptionType: this.subscriptionName.toLowerCase(),
-      paymentMethod: this.paymentMethod,
-      subscriptionStartDate: this.subscriptionStartDate,
-      subscriptionEndDate: this.subscriptionEndDate,
-      subscriptionStatus: 'active',
-      type: 'debit',
-      balance: parseInt(Availbalance),
-      transactiondate: this.getdate(),
-    };
-    
-    
-    // this.transactionHistory[this.transactionHistory.length] = this.newObj;
-    // this.transactionHistory = [...this.transactionHistory,this.newObj];
-    
-    // localStorage.setItem (
-    //   'transactions',
-    //   JSON.stringify(this.transactionHistory),
-    // );
-
-    this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
-    this.transactionHistory.push(this.newObj);
-    localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
-
-     if (this.paymentMethod == 'wallet') {
-      reduceAmount = parseInt(reduceAmount) - parseInt(this.subscriptionPrice);
-    }
-    localStorage.setItem('amount', reduceAmount);
-    // this.data = { ...this.data, [Object.keys(this.data).length]: this.newObj };
-
-    // localStorage.setItem('data', JSON.stringify(this.data));
-
-
-    this.data[this.data.length] = this.newObj;
-    localStorage.setItem('data', JSON.stringify(this.data));
-    
-    
-
-
-   this.data = this.digiwallet.loadInitialTable();
-    this.addSubscription = false;
-    this.digiwallet.autoDeductMoney(this.data.length);
-    return this.data;
+    this.flashMessages.success('Success!');
   }
-}
 
   @action
   editButtonClicked(id) {
@@ -188,12 +191,16 @@ export default class SubscriptionsController extends Controller {
         //   JSON.stringify(this.transactionHistory),
         // );
 
-        this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
+        this.transactionHistory =
+          JSON.parse(localStorage.getItem('transactions')) || [];
         this.transactionHistory.push(this.data[id - 1]);
-        localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
+        localStorage.setItem(
+          'transactions',
+          JSON.stringify(this.transactionHistory),
+        );
 
         localStorage.setItem('data', JSON.stringify(this.data));
-       this.data = this.digiwallet.loadInitialTable();
+        this.data = this.digiwallet.loadInitialTable();
       } else {
         refundAmount =
           parseInt(refundAmount) -
@@ -208,13 +215,16 @@ export default class SubscriptionsController extends Controller {
         //   'transactions',
         //   JSON.stringify(this.transactionHistory),
         // );
-        this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
+        this.transactionHistory =
+          JSON.parse(localStorage.getItem('transactions')) || [];
         this.transactionHistory.push(this.data[id - 1]);
-        localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
-
+        localStorage.setItem(
+          'transactions',
+          JSON.stringify(this.transactionHistory),
+        );
 
         localStorage.setItem('data', JSON.stringify(this.data));
-       this.data = this.digiwallet.loadInitialTable();
+        this.data = this.digiwallet.loadInitialTable();
       }
     } else {
       if (this.data[id - 1].subscriptionStatus.toLowerCase() == 'active') {
@@ -223,26 +233,31 @@ export default class SubscriptionsController extends Controller {
         this.data[id - 1].balance = localStorage.getItem('amount');
         // delete this.data[id - 1];
 
-
-        this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
+        this.transactionHistory =
+          JSON.parse(localStorage.getItem('transactions')) || [];
         this.transactionHistory.push(this.data[id - 1]);
-        localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
-
+        localStorage.setItem(
+          'transactions',
+          JSON.stringify(this.transactionHistory),
+        );
 
         localStorage.setItem('data', JSON.stringify(this.data));
-       this.data = this.digiwallet.loadInitialTable();
+        this.data = this.digiwallet.loadInitialTable();
       } else {
         this.data[id - 1].subscriptionStatus = 'active';
         this.data[id - 1].type = 'debit';
         this.data[id - 1].balance = localStorage.getItem('amount');
 
-        this.transactionHistory = JSON.parse(localStorage.getItem('transactions')) || [];
+        this.transactionHistory =
+          JSON.parse(localStorage.getItem('transactions')) || [];
         this.transactionHistory.push(this.data[id - 1]);
-        localStorage.setItem('transactions', JSON.stringify(this.transactionHistory));
+        localStorage.setItem(
+          'transactions',
+          JSON.stringify(this.transactionHistory),
+        );
 
-        
         localStorage.setItem('data', JSON.stringify(this.data));
-       this.data = this.digiwallet.loadInitialTable();
+        this.data = this.digiwallet.loadInitialTable();
       }
     }
   }
@@ -251,7 +266,7 @@ export default class SubscriptionsController extends Controller {
   permanentDeleteButtonClicked(id) {
     delete this.data[id - 1];
     localStorage.setItem('data', JSON.stringify(this.data));
-   this.data = this.digiwallet.loadInitialTable();
+    this.data = this.digiwallet.loadInitialTable();
   }
 
   @action
@@ -273,7 +288,7 @@ export default class SubscriptionsController extends Controller {
     localStorage.setItem('data', JSON.stringify(this.data));
     console.log(this.data);
     this.editSubscription = false;
-   this.data = this.digiwallet.loadInitialTable();
+    this.data = this.digiwallet.loadInitialTable();
   }
   @action
   cancelEdit() {
@@ -289,8 +304,4 @@ export default class SubscriptionsController extends Controller {
   closeAddSubscription() {
     this.addSubscription = false;
   }
-
-
-
-
 }
