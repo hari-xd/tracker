@@ -7,8 +7,44 @@
         <h1>Welcome, Ned Stark</h1>
         <p>Your one-stop solution for tracking your finances.</p>
       </div>
+      {{!-- {{#each this.flashMessages.queue as |flash|}}
+        <div class="flash-message">
+          <p>{{flash.flashType}}</p>
+          <p>{{flash.message}}</p>
+        </div>
+      {{/each}} --}}
+      {{#each this.flashMessages.queue as |flash|}}
+        <FlashMessage @flash={{flash}} as |component flash|>
+          {{#if flash.componentName}}
+            {{component flash.componentName content=flash.content}}
+          {{else}}
+            <div
+              class="flash-messages {{component.flashType}}"
+              {{on-click-outside this.closeflash}}
+            >
 
+              <div class="itag-messages">
+                {{#if (eq component.flashType "Success")}}
+                  <i class="fa-solid fa-circle-check fa-ch"></i>
+                {{/if}}
+                {{#if (eq component.flashType "Info")}}
+                  <i class="fa-solid fa-circle-info fa-co"></i>
+                {{/if}}
+                {{#if (eq component.flashType "Warning")}}
+                  <i class="fa-solid fa-circle-xmark fa-xaa"></i>
+                {{/if}}
+                <div class="message-split {{component.flashType}}">
+                  <h3>{{component.flashType}} !!</h3>
+                  <p>{{flash.message}}</p>
+                </div>
+              </div>
+              <i class="fa-solid fa-xmark" {{on "click" this.closeflash}}></i>
+            </div>
+          {{/if}}
+        </FlashMessage>
+      {{/each}}
       <div class="top-right">
+        <p>Wallet: ${{this.digiwallet.applicationWalletAmount}}</p>
         <i class="fa-solid fa-bell"></i>
         {{!-- {{#each this.flashMessages.queue as |flash|}}
             <FlashMessage @flash={{flash}} as |component flash|>
@@ -20,9 +56,7 @@
                 {{/if}}
             </FlashMessage>
         {{/each}} --}}
-        {{#each this.flashMessages.queue as |flash|}}
-          <p>{{flash.message}}</p>
-        {{/each}}
+
         <img src="assets/images/profile.png" alt="Profile Image" />
       </div>
     </div>

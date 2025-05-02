@@ -106,6 +106,7 @@ nav ul li {
 
 .top {
   background-color: white;
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
@@ -129,6 +130,14 @@ nav ul li {
   flex-direction: row;
   gap: 20px;
 }
+.top-right p{
+  background-color: #47ceae;
+  padding: 8px 10px;
+  color: white;
+  border-radius: 8px;
+  width: 120px;
+  text-align: center;
+}
 .top-right img {
   width: 50px;
   height: 50px;
@@ -137,6 +146,69 @@ nav ul li {
 }
 .top-right i {
   font-size: 25px;
+}
+
+.flash-messages{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 350px;
+  gap: 20px;
+  font-size: 15px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: black;
+  font-family: "Roboto Condensed", sans-serif !important;
+}
+.itag-messages{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.message-split{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.fa-xmark{
+  cursor: pointer;
+}
+.Success h3{
+color:#47d86e;
+}
+.flash-messages p{
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+.flash-messages i{
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+}
+.Success{
+  background-color: #eafaeb;
+}
+.Info{
+  background-color: #e2d6f5;
+  
+}
+.Info h3,.fa-co{
+  color: #5a30c2;
+}
+.Warning{
+  background-color: #feddda;
+}
+.Warning h3,.fa-xaa{
+  color: #ff4232;
+}
+.fa-ch{
+  color:#47d86e;
 }
 .dashboards {
   padding: 20px;
@@ -961,6 +1033,9 @@ nav ul li {
 }
 .transactions-splitup {
   width: 100%;
+}
+.upi-payment p{
+  text-transform: uppercase;
 }
 .transactions-details img {
   width: 30px;

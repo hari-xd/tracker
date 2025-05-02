@@ -5,6 +5,7 @@ import { service } from '@ember/service';
 
 export default class WalletController extends Controller {
   @service digiwallet;
+  @service flashMessages;
 
   @tracked addMoneyClicked = false;
   @tracked amount = localStorage.getItem('amount');
@@ -69,6 +70,13 @@ export default class WalletController extends Controller {
     this.amount = localStorage.getItem('amount');
     console.log(parseInt(this.amount));
     console.log(parseInt(this.upamount));
+    if (parseInt(this.upamount) > 0) {
+      this.amount = parseInt(this.amount) + parseInt(this.upamount);
+    } else {
+      this.flashMessages.warning('Negative Amount can no be added');
+      this.addMoneyClicked = false;
+      return this.amount;
+    }
     this.amount = parseInt(this.amount) + parseInt(this.upamount);
     this.digiwallet.updateAmount(this.amount);
     localStorage.setItem('amount', this.amount);
@@ -76,6 +84,9 @@ export default class WalletController extends Controller {
     this.digiwallet.getTotalAmountCredited(parseInt(this.upamount));
     this.addMoneyTransaction();
     this.addMoneyClicked = false;
+    this.flashMessages.success(
+      `$${this.upamount} Money debited into the wallet`,
+    );
     return this.amount;
   }
 

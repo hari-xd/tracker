@@ -1,7 +1,10 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 
 export default class DigiwalletService extends Service {
+  @service flashMessages;
+
   @tracked walletAmount = localStorage.getItem('amount');
   @tracked transactionHistory = [];
   @tracked totalAmount = localStorage.getItem('totalAmount');
@@ -23,7 +26,12 @@ export default class DigiwalletService extends Service {
   }
   getamount() {
     this.walletAmount = localStorage.getItem('amount');
-    console.log('controller', this.walletAmount);
+    return this.walletAmount;
+  }
+
+  get applicationWalletAmount() {
+    this.walletAmount = localStorage.getItem('amount');
+    return this.walletAmount;
   }
 
   updateAmount(amt) {
@@ -35,6 +43,7 @@ export default class DigiwalletService extends Service {
   }
 
   getransactions() {
+    this.applicationWalletAmount;
     let transactions =
       JSON.parse(localStorage.getItem('transactions')).reverse() || [];
     if (this.filtertype) {
@@ -81,6 +90,7 @@ export default class DigiwalletService extends Service {
   }
 
   autoDeductMoney(id) {
+    this.applicationWalletAmount;
     console.log('hi');
     let data = JSON.parse(localStorage.getItem('data'));
     let amount = parseInt(localStorage.getItem('amount'));
@@ -179,6 +189,8 @@ export default class DigiwalletService extends Service {
               console.log('cancelled', data[id - 1].subscriptionName);
               data[id - 1].subscriptionStatus = 'cancelled';
               localStorage.setItem('data', JSON.stringify(data));
+              this.flashMessages.info('Subscription Cancelled');
+
               this.loadInitialTable();
               clearInterval(interval);
               return;
@@ -187,6 +199,7 @@ export default class DigiwalletService extends Service {
         }
 
         if (data[id - 1].billingCycle === '3 months') {
+          console.log('3 months start');
           let interval = setInterval(() => {
             let freshAmount = parseInt(localStorage.getItem('amount'));
             if (
@@ -221,11 +234,14 @@ export default class DigiwalletService extends Service {
               );
               this.getransactions();
               console.log('ended loop', id);
+              console.log('3 months end');
             } else {
               data = JSON.parse(localStorage.getItem('data'));
               console.log('cancelled', data[id - 1].subscriptionName);
               data[id - 1].subscriptionStatus = 'cancelled';
               localStorage.setItem('data', JSON.stringify(data));
+              this.flashMessages.info('Subscription Cancelled');
+
               this.loadInitialTable();
               clearInterval(interval);
               return;
@@ -273,6 +289,8 @@ export default class DigiwalletService extends Service {
               console.log('cancelled', data[id - 1].subscriptionName);
               data[id - 1].subscriptionStatus = 'cancelled';
               localStorage.setItem('data', JSON.stringify(data));
+              this.flashMessages.info('Subscription Cancelled');
+
               this.loadInitialTable();
               clearInterval(interval);
               return;
@@ -280,21 +298,56 @@ export default class DigiwalletService extends Service {
           }, 30000);
         }
       } else {
+        if (data[id - 1].billingCycle == 'monthly') {
+          setTimeout(() => {
+            data[id - 1].subscriptionStatus = 'cancelled';
+            localStorage.setItem('data', JSON.stringify(data));
+            this.loadInitialTable();
+            this.flashMessages.info('Subscription Cancelled');
+          }, 10000);
+        }
+        if (data[id - 1].billingCycle == '3 months') {
+          setTimeout(() => {
+            data[id - 1].subscriptionStatus = 'cancelled';
+            localStorage.setItem('data', JSON.stringify(data));
+            this.loadInitialTable();
+            this.flashMessages.info('Subscription Cancelled');
+          }, 20000);
+        }
+        if (data[id - 1].billingCycle == 'yearly') {
+          setTimeout(() => {
+            data[id - 1].subscriptionStatus = 'cancelled';
+            localStorage.setItem('data', JSON.stringify(data));
+            this.loadInitialTable();
+            this.flashMessages.info('Subscription Cancelled');
+          }, 30000);
+        }
+      }
+    } else {
+      if (data[id - 1].billingCycle == 'monthly') {
         setTimeout(() => {
           data[id - 1].subscriptionStatus = 'cancelled';
           localStorage.setItem('data', JSON.stringify(data));
           this.loadInitialTable();
+          this.flashMessages.info('Subscription Cancelled');
         }, 10000);
       }
-    } else {
-      setTimeout(() => {
-        data = JSON.parse(localStorage.getItem('data'));
-        console.log(data[id - 1]);
-        console.log(data[id - 1].subscriptionName);
-        data[id - 1].subscriptionStatus = 'cancelled';
-        localStorage.setItem('data', JSON.stringify(data));
-        this.loadInitialTable();
-      }, 10000);
+      if (data[id - 1].billingCycle == '3 months') {
+        setTimeout(() => {
+          data[id - 1].subscriptionStatus = 'cancelled';
+          localStorage.setItem('data', JSON.stringify(data));
+          this.loadInitialTable();
+          this.flashMessages.info('Subscription Cancelled');
+        }, 20000);
+      }
+      if (data[id - 1].billingCycle == 'yearly') {
+        setTimeout(() => {
+          data[id - 1].subscriptionStatus = 'cancelled';
+          localStorage.setItem('data', JSON.stringify(data));
+          this.loadInitialTable();
+          this.flashMessages.info('Subscription Cancelled');
+        }, 30000);
+      }
     }
   }
 

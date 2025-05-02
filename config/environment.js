@@ -14,7 +14,10 @@ module.exports = function (environment) {
       },
     },
     flashMessageDefaults: {
-      extendedTimeout: 5000,
+      timeout: 3000,
+      showProgress: true,
+      destroyOnClick: false,
+      preventDuplicates: true,
     },
 
     APP: {

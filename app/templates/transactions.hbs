@@ -56,7 +56,14 @@
                         {{#if (eq transactions.paymentMethod "wallet")}}
                           <p>{{transactions.paymentMethod}}</p>
                         {{else}}
-                          <p>{{transactions.paymentMethod}} card</p>
+                          {{#if (eq transactions.paymentMethod "upi")}}
+                            <div class="upi-payment">
+                              <p>{{transactions.paymentMethod}}</p>
+                            </div>
+                          {{else}}
+                            <p>{{transactions.paymentMethod}} card</p>
+                          {{/if}}
+
                         {{/if}}
                         <i class="fa-solid fa-circle"></i>
                         {{!-- <p>{{transactions.type}}ed</p>

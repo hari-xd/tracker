@@ -1,7 +1,9 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 
 export default class IndexController extends Controller {
+  @service flashMessages;
   @tracked totalamount = 0;
   subscriptionsCount() {
     let data = JSON.parse(localStorage.getItem('data'));

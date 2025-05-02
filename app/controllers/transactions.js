@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 
 export default class TransactionsController extends Controller {
   @service digiwallet;
+  @service flashMessages;
   @tracked transactions = [];
   // @tracked transactions = { };
   // @tracked formattedDate = '';
@@ -28,6 +29,7 @@ export default class TransactionsController extends Controller {
   updateTransactionType() {
     this.digiwallet.gettransactiontype(event.target.value);
     this.digiwallet.getransactions();
+    this.digiwallet.applicationWalletAmount;
     this.transactions = this.digiwallet.getransactions();
   }
 }

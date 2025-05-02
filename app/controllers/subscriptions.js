@@ -5,6 +5,7 @@ import { service } from '@ember/service';
 
 export default class SubscriptionsController extends Controller {
   @service digiwallet;
+  @service flashMessages;
 
   @tracked editSubscription = false;
   @tracked data = this.digiwallet.loadInitialTable() || {};
@@ -88,6 +89,7 @@ export default class SubscriptionsController extends Controller {
   }
   @action
   submitForm() {
+    this.digiwallet.applicationWalletAmount;
     if (
       this.paymentMethod == 'wallet' &&
       parseInt(localStorage.getItem('amount')) <
@@ -155,6 +157,7 @@ export default class SubscriptionsController extends Controller {
       this.digiwallet.autoDeductMoney(this.data.length);
       console.log(this.data[this.data.length]);
       console.log(this.data.length);
+      this.flashMessages.success('Subscription added successfully');
       return this.data;
     }
   }
@@ -163,10 +166,12 @@ export default class SubscriptionsController extends Controller {
   editButtonClicked(id) {
     this.subscriptionId = id;
     this.editSubscription = !this.editSubscription;
+    this.flashMessages.info('Subscription Edited');
   }
 
   @action
   deleteButtonClicked(id) {
+    this.digiwallet.applicationWalletAmount;
     let refundAmount = localStorage.getItem('amount');
     console.log('1 button clicked');
     this.data = JSON.parse(localStorage.getItem('data'));
@@ -174,7 +179,6 @@ export default class SubscriptionsController extends Controller {
       console.log('2 wallet');
       if (this.data[id - 1].subscriptionStatus.toLowerCase() == 'active') {
         console.log('3 wallet active');
-
         refundAmount =
           parseInt(refundAmount) +
           parseInt(this.data[id - 1].subscriptionPrice);
@@ -233,6 +237,7 @@ export default class SubscriptionsController extends Controller {
           localStorage.setItem('data', JSON.stringify(this.data));
           this.digiwallet.autoDeductMoney(id);
           this.data = this.digiwallet.loadInitialTable();
+          this.flashMessages.success('Subscription Activated');
         }
       }
     } else {
@@ -252,6 +257,7 @@ export default class SubscriptionsController extends Controller {
 
         localStorage.setItem('data', JSON.stringify(this.data));
         this.data = this.digiwallet.loadInitialTable();
+        this.flashMessages.info('Subscription Cancelled');
       } else {
         this.data[id - 1].subscriptionStatus = 'active';
         this.data[id - 1].type = 'debit';
@@ -268,6 +274,7 @@ export default class SubscriptionsController extends Controller {
         localStorage.setItem('data', JSON.stringify(this.data));
         this.digiwallet.autoDeductMoney(id);
         this.data = this.digiwallet.loadInitialTable();
+        this.flashMessages.success('Subscription Activated');
       }
     }
   }
@@ -277,6 +284,7 @@ export default class SubscriptionsController extends Controller {
     delete this.data[id - 1];
     localStorage.setItem('data', JSON.stringify(this.data));
     this.data = this.digiwallet.loadInitialTable();
+    this.flashMessages.warning('Subscription Deleted');
   }
 
   @action
