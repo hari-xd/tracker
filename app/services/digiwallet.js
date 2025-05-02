@@ -83,16 +83,21 @@ export default class DigiwalletService extends Service {
   autoDeductMoney(id) {
     console.log('hi');
     let data = JSON.parse(localStorage.getItem('data'));
-    let amount = localStorage.getItem('amount');
-    console.log(data[id - 1]);
-    if (amount > 0) {
-      console.log('amount');
+    let amount = parseInt(localStorage.getItem('amount'));
 
+    console.log(id);
+    console.log(data[id]);
+
+    if (amount > 0 && data[id - 1].paymentMethod == 'wallet') {
       const autoDeductFunction = () => {
-        if (amount > 0 && amount >= data[id - 1].subscriptionPrice) {
+        let freshAmount = parseInt(localStorage.getItem('amount'));
+        if (
+          freshAmount > 0 &&
+          freshAmount >= parseInt(data[id - 1].subscriptionPrice)
+        ) {
           console.log('started loop');
-          amount = parseInt(amount) - parseInt(data[id - 1].subscriptionPrice);
-          localStorage.setItem('amount', amount);
+          freshAmount = freshAmount - parseInt(data[id - 1].subscriptionPrice);
+          localStorage.setItem('amount', freshAmount);
           this.newObj = {
             id: id - 1,
             subscriptionName: data[id - 1].subscriptionName.toLowerCase(),
@@ -105,7 +110,7 @@ export default class DigiwalletService extends Service {
             subscriptionEndDate: data[id - 1].subscriptionEndDate,
             subscriptionStatus: 'active',
             type: 'debit',
-            balance: parseInt(amount),
+            balance: freshAmount,
             transactiondate: this.getdate(),
           };
           this.transactionHistory =
@@ -117,67 +122,94 @@ export default class DigiwalletService extends Service {
           );
           this.getransactions();
           console.log('ended loop', id);
-        }
-        else{
-          console.log('cancelled');
-            data[id - 1].subscriptionStatus = 'cancelled';
-            localStorage.setItem('data', JSON.stringify(data));
-            this.loadInitialTable();
-            return;
+        } else {
+          // data = JSON.parse(localStorage.getItem('data'));
+          console.log('cancelled', data[id - 1].subscriptionName);
+          data[id - 1].subscriptionStatus = 'cancelled';
+          localStorage.setItem('data', JSON.stringify(data));
+          this.loadInitialTable();
+          return;
         }
       };
 
       if (
-        amount >= data[id - 1].subscriptionPrice &&
-        data[id - 1].paymentMethod == 'wallet'
+        amount >= parseInt(data[id - 1].subscriptionPrice) &&
+        data[id - 1].paymentMethod === 'wallet'
       ) {
         console.log('subscriptionPrice');
 
-        if (data[id - 1].billingCycle == 'monthly') {
-          console.log('monthly');
-          let interval = setInterval(autoDeductFunction, 10000);
-        }
-        if (data[id - 1].billingCycle == '3 months') {
-          let interval = setInterval(autoDeductFunction, 20000);
-        }
-        if (data[id - 1].billingCycle == 'yearly') {
-          let interval = setInterval(autoDeductFunction, 30000);
-        }
-      } else {
-        if (data[id - 1].billingCycle == 'monthly') {
+        if (data[id - 1].billingCycle === 'monthly') {
           console.log('monthly');
           let interval = setInterval(() => {
-            console.log('cancelled');
-            data[id - 1].subscriptionStatus = 'cancelled';
-            localStorage.setItem('data', JSON.stringify(data));
-            this.loadInitialTable();
-            clearInterval(interval);
-            return;
+            let freshAmount = parseInt(localStorage.getItem('amount'));
+            if (
+              freshAmount > 0 &&
+              freshAmount >= parseInt(data[id - 1].subscriptionPrice)
+            ) {
+              console.log('started loop');
+              freshAmount =
+                freshAmount - parseInt(data[id - 1].subscriptionPrice);
+              localStorage.setItem('amount', freshAmount);
+              this.newObj = {
+                id: id - 1,
+                subscriptionName: data[id - 1].subscriptionName.toLowerCase(),
+                subscriptionPrice: parseInt(data[id - 1].subscriptionPrice),
+                subscriptionPlan: data[id - 1].subscriptionPlan,
+                billingCycle: data[id - 1].billingCycle,
+                subscriptionType: data[id - 1].subscriptionName.toLowerCase(),
+                paymentMethod: data[id - 1].paymentMethod,
+                subscriptionStartDate: data[id - 1].subscriptionStartDate,
+                subscriptionEndDate: data[id - 1].subscriptionEndDate,
+                subscriptionStatus: 'active',
+                type: 'debit',
+                balance: freshAmount,
+                transactiondate: this.getdate(),
+              };
+              this.transactionHistory =
+                JSON.parse(localStorage.getItem('transactions')) || [];
+              this.transactionHistory.push(this.newObj);
+              localStorage.setItem(
+                'transactions',
+                JSON.stringify(this.transactionHistory),
+              );
+              this.getransactions();
+              console.log('ended loop', id);
+            } else {
+              data = JSON.parse(localStorage.getItem('data'));
+              console.log('cancelled', data[id - 1].subscriptionName);
+              data[id - 1].subscriptionStatus = 'cancelled';
+              localStorage.setItem('data', JSON.stringify(data));
+              this.loadInitialTable();
+              clearInterval(interval);
+              return;
+            }
           }, 10000);
         }
-        if (data[id - 1].billingCycle == '3 months') {
-          let interval = setInterval(() => {
-            console.log('cancelled');
-            data[id - 1].subscriptionStatus = 'cancelled';
-            localStorage.setItem('data', JSON.stringify(data));
-            this.loadInitialTable();
-            clearInterval(interval);
 
-            return;
-          }, 20000);
-        }
-        if (data[id - 1].billingCycle == 'yearly') {
-          let interval = setInterval(() => {
-            console.log('cancelled');
-            data[id - 1].subscriptionStatus = 'cancelled';
-            localStorage.setItem('data', JSON.stringify(data));
-            this.loadInitialTable();
-            clearInterval(interval);
+        // if (data[id - 1].billingCycle === '3 months') {
+        //   let interval = setInterval(() => {
+        //     if (!autoDeductFunction()) clearInterval(interval);
+        //   }, 20000);
+        // }
 
-            return;
-          }, 30000);
-        }
+        // if (data[id - 1].billingCycle === 'yearly') {
+        //   let interval = setInterval(() => {
+        //     if (!autoDeductFunction()) clearInterval(interval);
+        //   }, 30000);
+        // }
+      } else {
+        setTimeout(() => {
+          data[id - 1].subscriptionStatus = 'cancelled';
+          localStorage.setItem('data', JSON.stringify(data));
+          this.loadInitialTable();
+        }, 10000);
       }
+    } else {
+      setTimeout(() => {
+        data[id - 1].subscriptionStatus = 'cancelled';
+        localStorage.setItem('data', JSON.stringify(data));
+        this.loadInitialTable();
+      }, 10000);
     }
   }
 
