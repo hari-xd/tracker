@@ -99,48 +99,48 @@ export default class DigiwalletService extends Service {
     console.log(data[id]);
 
     if (amount > 0 && data[id - 1].paymentMethod == 'wallet') {
-      const autoDeductFunction = () => {
-        let freshAmount = parseInt(localStorage.getItem('amount'));
-        if (
-          freshAmount > 0 &&
-          freshAmount >= parseInt(data[id - 1].subscriptionPrice)
-        ) {
-          console.log('started loop');
-          freshAmount = freshAmount - parseInt(data[id - 1].subscriptionPrice);
-          localStorage.setItem('amount', freshAmount);
-          this.newObj = {
-            id: id - 1,
-            subscriptionName: data[id - 1].subscriptionName.toLowerCase(),
-            subscriptionPrice: parseInt(data[id - 1].subscriptionPrice),
-            subscriptionPlan: data[id - 1].subscriptionPlan,
-            billingCycle: data[id - 1].billingCycle,
-            subscriptionType: data[id - 1].subscriptionName.toLowerCase(),
-            paymentMethod: data[id - 1].paymentMethod,
-            subscriptionStartDate: data[id - 1].subscriptionStartDate,
-            subscriptionEndDate: data[id - 1].subscriptionEndDate,
-            subscriptionStatus: 'active',
-            type: 'debit',
-            balance: freshAmount,
-            transactiondate: this.getdate(),
-          };
-          this.transactionHistory =
-            JSON.parse(localStorage.getItem('transactions')) || [];
-          this.transactionHistory.push(this.newObj);
-          localStorage.setItem(
-            'transactions',
-            JSON.stringify(this.transactionHistory),
-          );
-          this.getransactions();
-          console.log('ended loop', id);
-        } else {
-          // data = JSON.parse(localStorage.getItem('data'));
-          console.log('cancelled', data[id - 1].subscriptionName);
-          data[id - 1].subscriptionStatus = 'cancelled';
-          localStorage.setItem('data', JSON.stringify(data));
-          this.loadInitialTable();
-          return;
-        }
-      };
+      // const autoDeductFunction = () => {
+      //   let freshAmount = parseInt(localStorage.getItem('amount'));
+      //   if (
+      //     freshAmount > 0 &&
+      //     freshAmount >= parseInt(data[id - 1].subscriptionPrice)
+      //   ) {
+      //     console.log('started loop');
+      //     freshAmount = freshAmount - parseInt(data[id - 1].subscriptionPrice);
+      //     localStorage.setItem('amount', freshAmount);
+      //     this.newObj = {
+      //       id: id - 1,
+      //       subscriptionName: data[id - 1].subscriptionName.toLowerCase(),
+      //       subscriptionPrice: parseInt(data[id - 1].subscriptionPrice),
+      //       subscriptionPlan: data[id - 1].subscriptionPlan,
+      //       billingCycle: data[id - 1].billingCycle,
+      //       subscriptionType: data[id - 1].subscriptionName.toLowerCase(),
+      //       paymentMethod: data[id - 1].paymentMethod,
+      //       subscriptionStartDate: data[id - 1].subscriptionStartDate,
+      //       subscriptionEndDate: data[id - 1].subscriptionEndDate,
+      //       subscriptionStatus: 'active',
+      //       type: 'debit',
+      //       balance: freshAmount,
+      //       transactiondate: this.getdate(),
+      //     };
+      //     this.transactionHistory =
+      //       JSON.parse(localStorage.getItem('transactions')) || [];
+      //     this.transactionHistory.push(this.newObj);
+      //     localStorage.setItem(
+      //       'transactions',
+      //       JSON.stringify(this.transactionHistory),
+      //     );
+      //     this.getransactions();
+      //     console.log('ended loop', id);
+      //   } else {
+      //     // data = JSON.parse(localStorage.getItem('data'));
+      //     console.log('cancelled', data[id - 1].subscriptionName);
+      //     data[id - 1].subscriptionStatus = 'cancelled';
+      //     localStorage.setItem('data', JSON.stringify(data));
+      //     this.loadInitialTable();
+      //     return;
+      //   }
+      // };
 
       if (
         amount >= parseInt(data[id - 1].subscriptionPrice) &&
@@ -156,6 +156,12 @@ export default class DigiwalletService extends Service {
               freshAmount > 0 &&
               freshAmount >= parseInt(data[id - 1].subscriptionPrice)
             ) {
+              data = JSON.parse(localStorage.getItem('data'));
+              if (data[id - 1].subscriptionStatus == 'cancelled') {
+                clearInterval(interval);
+                console.log('interval cleared in mid');
+                return;
+              }
               console.log('started loop');
               freshAmount =
                 freshAmount - parseInt(data[id - 1].subscriptionPrice);
@@ -183,6 +189,8 @@ export default class DigiwalletService extends Service {
                 JSON.stringify(this.transactionHistory),
               );
               this.getransactions();
+              console.log('status', data[id - 1].subscriptionStatus);
+
               console.log('ended loop', id);
             } else {
               data = JSON.parse(localStorage.getItem('data'));

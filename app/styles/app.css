@@ -137,6 +137,7 @@ nav ul li {
   border-radius: 8px;
   width: 120px;
   text-align: center;
+  font-family: "Roboto Condensed", sans-serif !important;
 }
 .top-right img {
   width: 50px;
@@ -619,6 +620,7 @@ color:#47d86e;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .edit-subscription-button button:nth-child(1) {
@@ -627,13 +629,13 @@ color:#47d86e;
 }
 .edit-subscription-button button:nth-child(2) {
   background-color: transparent;
-  border: 1px solid #47ceae;
+  border: 1px solid #ccc;
   color: black;
   transition: all 0.3s ease-in-out;
 }
 .edit-subscription-button button:nth-child(2):hover {
-  background-color: #47ceae;
-  color: white;
+  background-color: #ffb8b8;
+  color: #d33a2c;
 }
 
 .subscriptions-cards {

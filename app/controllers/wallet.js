@@ -8,8 +8,7 @@ export default class WalletController extends Controller {
   @service flashMessages;
 
   @tracked addMoneyClicked = false;
-  @tracked amount = localStorage.getItem('amount');
-  // @tracked amount = 100;
+  @tracked amount = localStorage.getItem('amount') || 0;
 
   @tracked paymentType = '';
   @tracked upamount = 0;
