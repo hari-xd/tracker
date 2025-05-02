@@ -288,6 +288,9 @@ export default class DigiwalletService extends Service {
       }
     } else {
       setTimeout(() => {
+        data = JSON.parse(localStorage.getItem('data'));
+        console.log(data[id - 1]);
+        console.log(data[id - 1].subscriptionName);
         data[id - 1].subscriptionStatus = 'cancelled';
         localStorage.setItem('data', JSON.stringify(data));
         this.loadInitialTable();
