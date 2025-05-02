@@ -7,6 +7,7 @@ export default class SubscriptionsController extends Controller {
   @service digiwallet;
   @service flashMessages;
 
+  @tracked searchSubscription = '';
   @tracked editSubscription = false;
   @tracked data = this.digiwallet.loadInitialTable() || {};
   @tracked transactionHistory = [];
@@ -333,5 +334,11 @@ export default class SubscriptionsController extends Controller {
   @action
   closeAddSubscription() {
     this.addSubscription = false;
+  }
+
+  @action
+  searchInput() {
+    this.searchSubscription = event.target.value;
+    this.digiwallet.searchValue(this.searchSubscription);
   }
 }

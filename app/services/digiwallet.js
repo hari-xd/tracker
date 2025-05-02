@@ -5,11 +5,13 @@ import { service } from '@ember/service';
 export default class DigiwalletService extends Service {
   @service flashMessages;
 
+  @tracked searchInput = '';
   @tracked walletAmount = localStorage.getItem('amount');
+  @tracked subscriptionCards = [];
   @tracked transactionHistory = [];
   @tracked totalAmount = localStorage.getItem('totalAmount');
   @tracked filtertype = '';
-  @tracked data = JSON.parse(localStorage.getItem('data'));
+  @tracked data = [];
   @tracked transact =
     JSON.parse(localStorage.getItem('transactions')).reverse() || [];
 
@@ -214,6 +216,12 @@ export default class DigiwalletService extends Service {
               freshAmount > 0 &&
               freshAmount >= parseInt(data[id - 1].subscriptionPrice)
             ) {
+              data = JSON.parse(localStorage.getItem('data'));
+              if (data[id - 1].subscriptionStatus == 'cancelled') {
+                clearInterval(interval);
+                console.log('interval cleared in mid');
+                return;
+              }
               console.log('started loop');
               freshAmount =
                 freshAmount - parseInt(data[id - 1].subscriptionPrice);
@@ -264,6 +272,12 @@ export default class DigiwalletService extends Service {
               freshAmount > 0 &&
               freshAmount >= parseInt(data[id - 1].subscriptionPrice)
             ) {
+              data = JSON.parse(localStorage.getItem('data'));
+              if (data[id - 1].subscriptionStatus == 'cancelled') {
+                clearInterval(interval);
+                console.log('interval cleared in mid');
+                return;
+              }
               console.log('started loop');
               freshAmount =
                 freshAmount - parseInt(data[id - 1].subscriptionPrice);
@@ -360,13 +374,31 @@ export default class DigiwalletService extends Service {
   }
 
   get displayCards() {
-    this.data.reverse().forEach((element) => {
-      if (!element) {
-        console.log('false');
-        return false;
+    let flag = 0;
+    this.data.forEach((element) => {
+      if (element) {
+        flag = 1;
       }
-      console.log('true');
-      return true;
     });
+    if (flag == 1) {
+      return true;
+    }
+    return false;
+  }
+
+  searchValue(value) {
+    this.searchInput = value;
+    console.log('service', this.searchInput);
+  }
+
+  get filteredSubscription() {
+    if (!this.searchInput) {
+      return this.data;
+    }
+    return this.data.filter((obj) =>
+      obj?.subscriptionName
+        ?.toLowerCase()
+        .includes(this.searchInput.toLowerCase()),
+    );
   }
 }
