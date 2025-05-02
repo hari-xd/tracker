@@ -163,6 +163,7 @@ nav ul li {
   border-radius: 10px;
   color: black;
   font-family: "Roboto Condensed", sans-serif !important;
+  z-index: 10000;
 }
 .itag-messages{
   display: flex;

@@ -89,76 +89,88 @@ export default class SubscriptionsController extends Controller {
   }
   @action
   submitForm() {
-    this.digiwallet.applicationWalletAmount;
     if (
-      this.paymentMethod == 'wallet' &&
-      parseInt(localStorage.getItem('amount')) <
-        parseInt(this.subscriptionPrice)
+      this.subscriptionName &&
+      this.subscriptionPrice &&
+      this.subscriptionPlan &&
+      this.billingCycle &&
+      this.paymentMethod &&
+      this.subscriptionStartDate &&
+      this.subscriptionEndDate
     ) {
-      this.addSubscription = false;
+      this.digiwallet.applicationWalletAmount;
+      if (
+        this.paymentMethod == 'wallet' &&
+        parseInt(localStorage.getItem('amount')) <
+          parseInt(this.subscriptionPrice)
+      ) {
+        this.addSubscription = false;
+      } else {
+        this.data = JSON.parse(localStorage.getItem('data'));
+        let reduceAmount = localStorage.getItem('amount');
+        let Availbalance = localStorage.getItem('amount');
+        // console.log('hi');
+        // let data = JSON.parse(localStorage.getItem("data"))
+        // this.newArray = [this.subscriptionName,this.subscriptionPrice, this.subscriptionPlan,this.billingCycle, this.paymentMethod,
+        //     this.subscriptionStartDate,this.subscriptionEndDate];
+        if (this.paymentMethod == 'wallet') {
+          Availbalance =
+            localStorage.getItem('amount') - parseInt(this.subscriptionPrice);
+        }
+        this.newObj = {
+          id: this.data.length + 1,
+          subscriptionName: this.subscriptionName.toLowerCase(),
+          subscriptionPrice: parseInt(this.subscriptionPrice),
+          subscriptionPlan: this.subscriptionPlan,
+          billingCycle: this.billingCycle,
+          subscriptionType: this.subscriptionName.toLowerCase(),
+          paymentMethod: this.paymentMethod,
+          subscriptionStartDate: this.subscriptionStartDate,
+          subscriptionEndDate: this.subscriptionEndDate,
+          subscriptionStatus: 'active',
+          type: 'debit',
+          balance: parseInt(Availbalance),
+          transactiondate: this.getdate(),
+        };
+
+        // this.transactionHistory[this.transactionHistory.length] = this.newObj;
+        // this.transactionHistory = [...this.transactionHistory,this.newObj];
+
+        // localStorage.setItem (
+        //   'transactions',
+        //   JSON.stringify(this.transactionHistory),
+        // );
+
+        this.transactionHistory =
+          JSON.parse(localStorage.getItem('transactions')) || [];
+        this.transactionHistory.push(this.newObj);
+        localStorage.setItem(
+          'transactions',
+          JSON.stringify(this.transactionHistory),
+        );
+
+        if (this.paymentMethod == 'wallet') {
+          reduceAmount =
+            parseInt(reduceAmount) - parseInt(this.subscriptionPrice);
+        }
+        localStorage.setItem('amount', reduceAmount);
+        // this.data = { ...this.data, [Object.keys(this.data).length]: this.newObj };
+
+        // localStorage.setItem('data', JSON.stringify(this.data));
+
+        this.data[this.data.length] = this.newObj;
+        localStorage.setItem('data', JSON.stringify(this.data));
+
+        this.data = this.digiwallet.loadInitialTable();
+        this.addSubscription = false;
+        this.digiwallet.autoDeductMoney(this.data.length);
+        console.log(this.data[this.data.length]);
+        console.log(this.data.length);
+        this.flashMessages.success('Subscription added successfully');
+        return this.data;
+      }
     } else {
-      this.data = JSON.parse(localStorage.getItem('data'));
-      let reduceAmount = localStorage.getItem('amount');
-      let Availbalance = localStorage.getItem('amount');
-      // console.log('hi');
-      // let data = JSON.parse(localStorage.getItem("data"))
-      // this.newArray = [this.subscriptionName,this.subscriptionPrice, this.subscriptionPlan,this.billingCycle, this.paymentMethod,
-      //     this.subscriptionStartDate,this.subscriptionEndDate];
-      if (this.paymentMethod == 'wallet') {
-        Availbalance =
-          localStorage.getItem('amount') - parseInt(this.subscriptionPrice);
-      }
-      this.newObj = {
-        id: this.data.length + 1,
-        subscriptionName: this.subscriptionName.toLowerCase(),
-        subscriptionPrice: parseInt(this.subscriptionPrice),
-        subscriptionPlan: this.subscriptionPlan,
-        billingCycle: this.billingCycle,
-        subscriptionType: this.subscriptionName.toLowerCase(),
-        paymentMethod: this.paymentMethod,
-        subscriptionStartDate: this.subscriptionStartDate,
-        subscriptionEndDate: this.subscriptionEndDate,
-        subscriptionStatus: 'active',
-        type: 'debit',
-        balance: parseInt(Availbalance),
-        transactiondate: this.getdate(),
-      };
-
-      // this.transactionHistory[this.transactionHistory.length] = this.newObj;
-      // this.transactionHistory = [...this.transactionHistory,this.newObj];
-
-      // localStorage.setItem (
-      //   'transactions',
-      //   JSON.stringify(this.transactionHistory),
-      // );
-
-      this.transactionHistory =
-        JSON.parse(localStorage.getItem('transactions')) || [];
-      this.transactionHistory.push(this.newObj);
-      localStorage.setItem(
-        'transactions',
-        JSON.stringify(this.transactionHistory),
-      );
-
-      if (this.paymentMethod == 'wallet') {
-        reduceAmount =
-          parseInt(reduceAmount) - parseInt(this.subscriptionPrice);
-      }
-      localStorage.setItem('amount', reduceAmount);
-      // this.data = { ...this.data, [Object.keys(this.data).length]: this.newObj };
-
-      // localStorage.setItem('data', JSON.stringify(this.data));
-
-      this.data[this.data.length] = this.newObj;
-      localStorage.setItem('data', JSON.stringify(this.data));
-
-      this.data = this.digiwallet.loadInitialTable();
-      this.addSubscription = false;
-      this.digiwallet.autoDeductMoney(this.data.length);
-      console.log(this.data[this.data.length]);
-      console.log(this.data.length);
-      this.flashMessages.success('Subscription added successfully');
-      return this.data;
+      this.flashMessages.warning('Please fill all neccessary fields');
     }
   }
 
