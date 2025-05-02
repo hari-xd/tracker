@@ -153,6 +153,8 @@ export default class SubscriptionsController extends Controller {
       this.data = this.digiwallet.loadInitialTable();
       this.addSubscription = false;
       this.digiwallet.autoDeductMoney(this.data.length);
+      console.log(this.data[this.data.length]);
+      console.log(this.data.length);
       return this.data;
     }
   }
