@@ -6,10 +6,10 @@ export default class DigiwalletService extends Service {
   @service flashMessages;
 
   @tracked searchInput = '';
-  @tracked walletAmount = localStorage.getItem('amount');
+  @tracked walletAmount = localStorage.getItem('amount') || 100;
   @tracked subscriptionCards = [];
   @tracked transactionHistory = [];
-  @tracked totalAmount = localStorage.getItem('totalAmount');
+  @tracked totalAmount = localStorage.getItem('totalAmount') || 100;
   @tracked filtertype = '';
   @tracked data = [];
   @tracked transact =
@@ -20,6 +20,7 @@ export default class DigiwalletService extends Service {
     this.getransactions();
     this.getamount();
     this.loadInitialTable();
+    this.refreshAutoPay();
   }
 
   loadInitialTable() {
@@ -46,18 +47,20 @@ export default class DigiwalletService extends Service {
 
   getransactions() {
     this.applicationWalletAmount;
-    let transactions =
-      JSON.parse(localStorage.getItem('transactions')).reverse() || [];
+    let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    transactions = transactions.reverse();
     if (this.filtertype) {
       this.transact = [];
       let flag = 0;
-      transactions.forEach((element) => {
-        if (element.type == this.filtertype) {
-          this.transact.push(element);
-          flag = 1;
-        }
-        if (this.filtertype == 'all') {
-          flag = 2;
+      transactions.reverse().forEach((element) => {
+        if (element) {
+          if (element.type == this.filtertype) {
+            this.transact.push(element);
+            flag = 1;
+          }
+          if (this.filtertype == 'all') {
+            flag = 2;
+          }
         }
       });
       if (flag == 1) {
@@ -322,6 +325,7 @@ export default class DigiwalletService extends Service {
       } else {
         if (data[id - 1].billingCycle == 'monthly') {
           setTimeout(() => {
+            console.log(data[id - 1]);
             data[id - 1].subscriptionStatus = 'cancelled';
             localStorage.setItem('data', JSON.stringify(data));
             this.loadInitialTable();
@@ -375,7 +379,7 @@ export default class DigiwalletService extends Service {
 
   get displayCards() {
     let flag = 0;
-    this.data.forEach((element) => {
+    this.filteredSubscription.forEach((element) => {
       if (element) {
         flag = 1;
       }
@@ -400,5 +404,21 @@ export default class DigiwalletService extends Service {
         ?.toLowerCase()
         .includes(this.searchInput.toLowerCase()),
     );
+  }
+
+  refreshAutoPay() {
+    let data = JSON.parse(localStorage.getItem('data'));
+    console.log('data', data);
+    data.forEach((element) => {
+      if (element) {
+        if ((element.subscriptionStatus = 'active')) {
+          console.log('id', element.id);
+          this.autoDeductMoney(element.id);
+          console.log('refresh active');
+        }
+      } else {
+        console.log('no active subscriptions');
+      }
+    });
   }
 }

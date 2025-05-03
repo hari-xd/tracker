@@ -67,18 +67,18 @@ export default class WalletController extends Controller {
   @action
   submitAmount() {
     this.amount = localStorage.getItem('amount');
-    console.log(parseInt(this.amount));
-    console.log(parseInt(this.upamount));
-    if (parseInt(this.upamount) > 0) {
-      this.amount = parseInt(this.amount) + parseInt(this.upamount);
-    } else {
+    console.log('1', parseInt(this.amount));
+    console.log('2', parseInt(this.upamount));
+    if (parseInt(this.upamount) < 0) {
       this.flashMessages.warning('Negative Amount can no be added');
       this.addMoneyClicked = false;
       return this.amount;
     }
     this.amount = parseInt(this.amount) + parseInt(this.upamount);
-    this.digiwallet.updateAmount(this.amount);
+    console.log('3 amount', parseInt(this.amount));
+    // this.digiwallet.updateAmount(this.amount);
     localStorage.setItem('amount', this.amount);
+    console.log('4 local', localStorage.getItem('amount'));
     this.digiwallet.getamount();
     this.digiwallet.getTotalAmountCredited(parseInt(this.upamount));
     this.addMoneyTransaction();

@@ -21,8 +21,11 @@
           placeholder="Search for a subscription"
           {{on "input" this.searchInput}}
         />
-        <button type="submit" {{on "click" this.addSubscriptionForm}}>Add
-          Subscription</button>
+        <button
+          class="addbtn"
+          type="submit"
+          {{on "click" this.addSubscriptionForm}}
+        >Add Subscription</button>
       </div>
 
       {{!-- <table>
@@ -108,6 +111,7 @@
                     <div class="card-button">
                       {{#if (eq subscription.subscriptionStatus "active")}}
                         <button
+                          class="crd-btn"
                           type="button"
                           {{on
                             "click"
@@ -117,6 +121,7 @@
                       {{/if}}
                       {{#if (eq subscription.subscriptionStatus "active")}}
                         <button
+                          class="crd-btn"
                           type="button"
                           {{on
                             "click"
@@ -126,6 +131,7 @@
                       {{/if}}
                       {{#if (eq subscription.subscriptionStatus "cancelled")}}
                         <button
+                          class="crd-btn"
                           type="button"
                           {{on
                             "click"
@@ -137,6 +143,7 @@
 
                       {{#if (eq subscription.subscriptionStatus "cancelled")}}
                         <button
+                          class="crd-btn"
                           type="button"
                           {{on
                             "click"

@@ -107,7 +107,7 @@ export default class SubscriptionsController extends Controller {
       ) {
         this.addSubscription = false;
       } else {
-        this.data = JSON.parse(localStorage.getItem('data'));
+        this.data = JSON.parse(localStorage.getItem('data')) || [];
         let reduceAmount = localStorage.getItem('amount');
         let Availbalance = localStorage.getItem('amount');
         // console.log('hi');
@@ -168,6 +168,8 @@ export default class SubscriptionsController extends Controller {
         console.log(this.data[this.data.length]);
         console.log(this.data.length);
         this.flashMessages.success('Subscription added successfully');
+        this.subscriptionName = '';
+        this.subscriptionPrice = 0;
         return this.data;
       }
     } else {
@@ -197,6 +199,7 @@ export default class SubscriptionsController extends Controller {
           parseInt(this.data[id - 1].subscriptionPrice);
         localStorage.setItem('amount', refundAmount);
         this.data[id - 1].subscriptionStatus = 'cancelled';
+        this.flashMessages.info('Subscription Cancelled');
         this.data[id - 1].type = 'refund';
         this.data[id - 1].balance = localStorage.getItem('amount');
 
@@ -231,6 +234,7 @@ export default class SubscriptionsController extends Controller {
             parseInt(this.data[id - 1].subscriptionPrice);
           localStorage.setItem('amount', refundAmount);
           this.data[id - 1].subscriptionStatus = 'active';
+          this.flashMessages.success('Subscription Activated');
           this.data[id - 1].type = 'debit';
           this.data[id - 1].balance = localStorage.getItem('amount');
 
@@ -256,6 +260,7 @@ export default class SubscriptionsController extends Controller {
     } else {
       if (this.data[id - 1].subscriptionStatus.toLowerCase() == 'active') {
         this.data[id - 1].subscriptionStatus = 'cancelled';
+        this.flashMessages.info('Subscription Cancelled');
         this.data[id - 1].type = 'refund';
         this.data[id - 1].balance = localStorage.getItem('amount');
         // delete this.data[id - 1];
@@ -273,6 +278,7 @@ export default class SubscriptionsController extends Controller {
         this.flashMessages.info('Subscription Cancelled');
       } else {
         this.data[id - 1].subscriptionStatus = 'active';
+        this.flashMessages.success('Subscription Activated');
         this.data[id - 1].type = 'debit';
         this.data[id - 1].balance = localStorage.getItem('amount');
 

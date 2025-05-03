@@ -20,7 +20,10 @@
           {{else}}
             <div
               class="flash-messages {{component.flashType}}"
-              {{on-click-outside this.closeflash}}
+              {{on-click-outside
+                this.closeflash
+                exceptSelector=".crd-btn,.addbtn,.navbar"
+              }}
             >
 
               <div class="itag-messages">
@@ -44,7 +47,8 @@
         </FlashMessage>
       {{/each}}
       <div class="top-right">
-        <p>Wallet: $ {{this.digiwallet.applicationWalletAmount}}</p>
+        <LinkTo @route="wallet"><p>Wallet: $
+            {{this.digiwallet.walletAmount}}</p></LinkTo>
         <i class="fa-solid fa-bell"></i>
         {{!-- {{#each this.flashMessages.queue as |flash|}}
             <FlashMessage @flash={{flash}} as |component flash|>

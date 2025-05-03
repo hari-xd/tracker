@@ -1,49 +1,48 @@
 {{page-title "Index"}}
 
-
 <div class="dashboards">
-    <div class="designer-line">
-        <h1>Dashboard</h1>
+  <div class="designer-line">
+    <h1>Dashboard</h1>
+  </div>
+  <div class="dashboard">
+    <div class="boards">
+      <LinkTo @route="wallet">
+        <div class="heading wallet">
+          <i class="fa-solid fa-wallet"></i>
+          <h2>Wallet</h2>
+        </div>
+        <div class="content">
+          <h4>Your Balance</h4>
+          <h1>${{this.digiwallet.walletAmount}}</h1>
+        </div>
+      </LinkTo>
     </div>
-    <div class="dashboard">
-        <div class="boards">
-            <LinkTo @route="wallet">
-            <div class="heading wallet">
-                <i class="fa-solid fa-wallet"></i>
-            <h2>Wallet</h2>
-            </div>
-            <div class="content">
-                <h4>Your Balance</h4>
-                <h1>${{this.model}}</h1>
-            </div>
-            </LinkTo>
+
+    <div class="boards">
+      <div class="heading subsc">
+        <i class="fa-solid fa-money-check-dollar"></i>
+        <h2>Subscriptions</h2>
+      </div>
+      <div class="content">
+        <h4>No of Subscriptions</h4>
+        <h1>{{this.subscriptionsCount}}</h1>
+      </div>
+    </div>
+
+    <div class="boards">
+      <LinkTo @route="transactions">
+        <div class="heading spendings">
+          <i class="fa-solid fa-money-bill-transfer"></i>
+          <h2>Spendings</h2>
         </div>
-
-        <div class="boards">
-            <div class="heading subsc">
-                <i class="fa-solid fa-money-check-dollar"></i>
-            <h2>Subscriptions</h2>
-            </div>
-            <div class="content">
-                <h4>No of Subscriptions</h4>
-                <h1>{{this.subscriptionsCount}}</h1>
-            </div>
+        <div class="content">
+          <h4>Your Spendings</h4>
+          <h1>${{this.subscriptionsCharge}}</h1>
         </div>
+      </LinkTo>
+    </div>
 
-        
-
-        <div class="boards">
-            <div class="heading spendings">
-                <i class="fa-solid fa-money-bill-transfer"></i>
-            <h2>Spendings</h2>
-            </div>
-            <div class="content">
-                <h4>Your Spendings</h4>
-                <h1>${{this.subscriptionsCharge}}</h1>
-            </div>
-        </div>
-
-        {{!-- <div class="boards">
+    {{!-- <div class="boards">
             <div class="heading spendings">
                 <i class="fa-solid fa-money-bill-transfer"></i>
             <h2>Spendings</h2>
@@ -53,5 +52,5 @@
                 <h1>${{this.subscriptionsCharge}}</h1>
             </div>
         </div> --}}
-    </div>
+  </div>
 </div>
