@@ -64,18 +64,18 @@ export default class DigiwalletService extends Service {
         }
       });
       if (flag == 1) {
-        return this.transact;
+        return this.transact.reverse();
       }
       if (flag == 2) {
         this.transact = transactions;
-        return this.transact;
+        return this.transact.reverse();
       } else {
         return;
       }
     } else {
       this.transact = transactions;
       console.log('else', this.transact);
-      return this.transact;
+      return this.transact.reverse();
     }
   }
 
@@ -409,16 +409,18 @@ export default class DigiwalletService extends Service {
   refreshAutoPay() {
     let data = JSON.parse(localStorage.getItem('data'));
     console.log('data', data);
-    data.forEach((element) => {
-      if (element) {
-        if ((element.subscriptionStatus = 'active')) {
-          console.log('id', element.id);
-          this.autoDeductMoney(element.id);
-          console.log('refresh active');
+    if (data) {
+      data.forEach((element) => {
+        if (element) {
+          if ((element.subscriptionStatus = 'active')) {
+            console.log('id', element.id);
+            this.autoDeductMoney(element.id);
+            console.log('refresh active');
+          }
+        } else {
+          console.log('no active subscriptions');
         }
-      } else {
-        console.log('no active subscriptions');
-      }
-    });
+      });
+    }
   }
 }
