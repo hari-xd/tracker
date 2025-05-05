@@ -30,7 +30,9 @@
       </div>
       <div class="export">
 
-        <button type="button"><i class="fa-solid fa-download"></i>Export as CSV</button>
+        <button type="button" {{on "click" this.exportBtn}}><i
+            class="fa-solid fa-download"
+          ></i>Export as CSV</button>
       </div>
     </div>
 
@@ -88,7 +90,7 @@
 
           {{else}}
             <div class="no-results">
-              <p>No results found</p>
+              <p>No transaction found</p>
             </div>
           {{/if}}
         </div>

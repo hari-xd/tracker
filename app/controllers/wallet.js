@@ -86,6 +86,7 @@ export default class WalletController extends Controller {
     this.flashMessages.success(
       `$${this.upamount} Money debited into the wallet`,
     );
+    this.digiwallet.getransactions();
     return this.amount;
   }
 

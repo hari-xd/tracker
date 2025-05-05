@@ -8,6 +8,7 @@ export default class IndexController extends Controller {
   @tracked walletAmount = 0;
 
   @tracked totalamount = 0;
+  @tracked trasact = [];
 
   constructor(...args) {
     super(...args);
@@ -33,7 +34,7 @@ export default class IndexController extends Controller {
   }
 
   subscriptionsCharge() {
-    let data = JSON.parse(localStorage.getItem('data'));
+    let data = JSON.parse(localStorage.getItem('transactions'));
     let sum = 0;
     if (data) {
       data.forEach((dat) => {

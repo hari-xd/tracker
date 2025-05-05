@@ -32,4 +32,15 @@ export default class TransactionsController extends Controller {
     this.digiwallet.applicationWalletAmount;
     this.transactions = this.digiwallet.getransactions();
   }
+
+  @action
+  exportBtn() {
+    let data = JSON.parse(localStorage.getItem('transactions'));
+    // let transData = [];
+    // data.forEach((element) => {
+    //   if (element) {
+    //     transData.push(element);
+    //   }
+    // });
+  }
 }

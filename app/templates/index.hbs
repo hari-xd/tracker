@@ -19,14 +19,16 @@
     </div>
 
     <div class="boards">
-      <div class="heading subsc">
-        <i class="fa-solid fa-money-check-dollar"></i>
-        <h2>Subscriptions</h2>
-      </div>
-      <div class="content">
-        <h4>No of Subscriptions</h4>
-        <h1>{{this.subscriptionsCount}}</h1>
-      </div>
+      <LinkTo @route="subscriptions">
+        <div class="heading subsc">
+          <i class="fa-solid fa-money-check-dollar"></i>
+          <h2>Subscriptions</h2>
+        </div>
+        <div class="content">
+          <h4>No of Subscriptions</h4>
+          <h1>{{this.digiwallet.subCounts}}</h1>
+        </div>
+      </LinkTo>
     </div>
 
     <div class="boards">
@@ -37,20 +39,96 @@
         </div>
         <div class="content">
           <h4>Your Spendings</h4>
-          <h1>${{this.subscriptionsCharge}}</h1>
+          <h1>${{this.digiwallet.subscriptionsCharge}}</h1>
         </div>
       </LinkTo>
     </div>
 
-    {{!-- <div class="boards">
-            <div class="heading spendings">
-                <i class="fa-solid fa-money-bill-transfer"></i>
-            <h2>Spendings</h2>
+    <div class="boards">
+      <div class="heading deposited">
+        <i class="fa-solid fa-sack-dollar"></i>
+        <h2>Deposited</h2>
+      </div>
+      <div class="content">
+        <h4>Your Deposits</h4>
+        <h1>${{this.digiwallet.totalAmount}}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="recent-transactions">
+  <div class="designer-line">
+    <h1>Recent Transactions</h1>
+  </div>
+  <div class="recent-tran">
+    <div class="transaction-container">
+      {{! <div class="transaction-date">
+                    <h2>Today</h2>
+                </div> }}
+      <div class="transaction-contain">
+        {{#if this.digiwallet.transact}}
+          <div class="view">
+            <div class="view-right">
+              <h2>Today</h2>
             </div>
-            <div class="content">
-                <h4>Your Spendings</h4>
-                <h1>${{this.subscriptionsCharge}}</h1>
+            <div>
+              <LinkTo @route="transactions">View all
+                <i class="fa-solid fa-caret-right"></i></LinkTo>
             </div>
-        </div> --}}
+          </div>
+          {{#each this.digiwallet.transact as |transactions|}}
+            {{#if transactions}}
+
+              <div class="transactionsss">
+
+                <div class="transactions-details">
+                  <img
+                    src="assets/images/{{transactions.subscriptionType}}.png"
+                    alt="logo"
+                  />
+                  <div class="transactions-left">
+                    <h3>{{transactions.subscriptionName}}</h3>
+                    <div class="transactions-notes">
+                      {{#if (eq transactions.paymentMethod "wallet")}}
+                        <p>{{transactions.paymentMethod}}</p>
+                      {{else}}
+                        {{#if (eq transactions.paymentMethod "upi")}}
+                          <div class="upi-payment">
+                            <p>{{transactions.paymentMethod}}</p>
+                          </div>
+                        {{else}}
+                          <p>{{transactions.paymentMethod}} card</p>
+                        {{/if}}
+
+                      {{/if}}
+                      <i class="fa-solid fa-circle"></i>
+                      {{!-- <p>{{transactions.type}}ed</p>
+                        <i class="fa-solid fa-circle"></i> --}}
+                      <p>{{transactions.transactiondate}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="transaction-amount refund">
+                  {{#if (eq transactions.type "debit")}}
+                    <h3
+                      class="{{if (eq transactions.type 'debit') 'debit'}}"
+                    >-{{transactions.subscriptionPrice}}</h3>
+                  {{else}}
+                    <h3>+{{transactions.subscriptionPrice}}</h3>
+                  {{/if}}
+                  <p>Available Balance : ${{transactions.balance}}</p>
+                </div>
+              </div>
+            {{/if}}
+          {{/each}}
+
+        {{else}}
+          <div class="no-results">
+            <p>No transaction found</p>
+          </div>
+        {{/if}}
+      </div>
+    </div>
   </div>
 </div>

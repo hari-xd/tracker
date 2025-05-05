@@ -175,6 +175,8 @@ export default class SubscriptionsController extends Controller {
     } else {
       this.flashMessages.warning('Please fill all neccessary fields');
     }
+    this.digiwallet.subscriptionsCount;
+    this.digiwallet.subscriptionsCharge;
   }
 
   @action
@@ -296,6 +298,9 @@ export default class SubscriptionsController extends Controller {
         this.flashMessages.success('Subscription Activated');
       }
     }
+    this.digiwallet.getransactions();
+    this.digiwallet.subscriptionsCount;
+    this.digiwallet.subscriptionsCharge;
   }
 
   @action
