@@ -45,14 +45,16 @@
     </div>
 
     <div class="boards">
-      <div class="heading deposited">
-        <i class="fa-solid fa-sack-dollar"></i>
-        <h2>Deposited</h2>
-      </div>
-      <div class="content">
-        <h4>Your Deposits</h4>
-        <h1>${{this.digiwallet.totalAmount}}</h1>
-      </div>
+      <LinkTo @route="wallet">
+        <div class="heading deposited">
+          <i class="fa-solid fa-sack-dollar"></i>
+          <h2>Deposited</h2>
+        </div>
+        <div class="content">
+          <h4>Your Deposits</h4>
+          <h1>${{this.digiwallet.totalAmount}}</h1>
+        </div>
+      </LinkTo>
     </div>
   </div>
 </div>

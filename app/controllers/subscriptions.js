@@ -257,6 +257,8 @@ export default class SubscriptionsController extends Controller {
           this.digiwallet.autoDeductMoney(id);
           this.data = this.digiwallet.loadInitialTable();
           this.flashMessages.success('Subscription Activated');
+        } else {
+          this.flashMessages.warning('Insufficient balance');
         }
       }
     } else {
